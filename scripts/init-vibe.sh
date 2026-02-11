@@ -106,7 +106,7 @@ log_info "使用技能库: $SKILLS_REGISTRY"
 
 # 创建 .vibe 目录结构
 log_step "创建 .vibe 目录"
-mkdir -p "$VIBE_DIR"/{skills,scripts,backups}
+mkdir -p "$VIBE_DIR"/scripts
 
 # 创建 .ai-context 目录（用于会话持久化）
 log_step "创建 AI 上下文目录"
@@ -117,9 +117,11 @@ log_step "创建技能声明文件"
 if [ ! -f "$TARGET_DIR/.skill-set" ] || [ "$FORCE" = true ]; then
     cat > "$TARGET_DIR/.skill-set" << 'EOF'
 # Vibe Coding 技能声明
-# 每行一个技能路径（相对于技能库的 skills/ 目录）
+# 声明本项目使用的技能（用于 AI 助手了解项目技术栈）
 #
 # 格式: <category>/<skill-name>
+# 查看可用技能: ls -la .vibe/skills/
+#
 # 示例:
 #   dev-workflow/git-commits
 #   dev-workflow/quality-gates
@@ -134,10 +136,6 @@ EOF
         done
         log_info "已添加初始技能: $INITIAL_SKILLS"
     fi
-else
-    log_warn ".skill-set 已存在，保留原文件"
-    # 备份到 .vibe/backups
-    cp "$TARGET_DIR/.skill-set" "$VIBE_DIR/backups/.skill-set.bak.$(date +%Y%m%d%H%M%S)"
 fi
 
 # 2. 创建 AGENTS.md（如果不存在）
@@ -180,80 +178,39 @@ else
     log_warn "AGENTS.md 已存在，保留原文件"
 fi
 
-# 3. 创建技能更新待办
-if [ ! -f "$VIBE_DIR/.skill-updates-todo.md" ]; then
-    cat > "$VIBE_DIR/.skill-updates-todo.md" << 'EOF'
-# Skill 更新待办
-
-开发过程中发现的技能问题或改进点：
-
-## 待办
-
-## 已完成
-
-EOF
-fi
-
-# 4. 创建脚本
+# 3. 创建脚本
 log_step "创建辅助脚本"
 
-# link-skills.sh
-cat > "$VIBE_DIR/scripts/link-skills.sh" << EOF
+# link.sh - 链接整个技能库
+cat > "$VIBE_DIR/scripts/link.sh" << EOF
 #!/bin/bash
-# 链接技能脚本
+# 链接技能脚本 - 链接整个技能库到项目
 
 SKILLS_REGISTRY="${SKILLS_REGISTRY:-$HOME/skills-registry}"
 PROJECT_ROOT="\$(dirname "\$(dirname "\$(dirname "\$(realpath "\$0")")")")"
-SKILL_SET="\$PROJECT_ROOT/.skill-set"
 SKILLS_DIR="\$PROJECT_ROOT/.vibe/skills"
 
-echo "技能库: \$SKILLS_REGISTRY"
-echo ""
-
-if [ ! -f "\$SKILL_SET" ]; then
-    echo "错误: 未找到 .skill-set 文件"
-    exit 1
-fi
-
-if [ ! -d "\$SKILLS_REGISTRY" ]; then
-    echo "错误: 未找到技能库"
+if [ ! -d "\$SKILLS_REGISTRY/skills" ]; then
+    echo "错误: 未找到技能库目录"
     echo "请设置 SKILLS_REGISTRY 环境变量"
     exit 1
 fi
 
-mkdir -p "\$SKILLS_DIR"
+# 删除旧的链接或目录（如果存在）
+if [ -L "\$SKILLS_DIR" ] || [ -d "\$SKILLS_DIR" ]; then
+    rm -rf "\$SKILLS_DIR"
+fi
 
-echo "链接技能..."
-while IFS= read -r line || [ -n "\$line" ]; do
-    line=\$(echo "\$line" | sed 's/#.*//')
-    [ -z "\$(echo "\$line" | tr -d '[:space:]')" ] && continue
-    
-    skill_path=\$(echo "\$line" | tr -d '[:space:]')
-    skill_name=\$(basename "\$skill_path")
-    source_path="\$SKILLS_REGISTRY/skills/\$skill_path"
-    target_path="\$SKILLS_DIR/\$skill_name"
-    
-    if [ ! -d "\$source_path" ]; then
-        echo "  [WARN]  未找到: \$skill_path"
-        continue
-    fi
-    
-    if [ -L "\$target_path" ]; then
-        rm "\$target_path"
-    fi
-    
-    ln -sf "\$source_path" "\$target_path"
-    echo "  [OK] \$skill_name"
-done < "\$SKILL_SET"
+# 链接整个技能库（链接到父目录，让 skills 成为链接本身）
+ln -sf "\$SKILLS_REGISTRY/skills" "\$SKILLS_DIR"
 
-echo ""
-echo "完成！"
+echo "[OK] 已链接技能库到 .vibe/skills/"
 EOF
-chmod +x "$VIBE_DIR/scripts/link-skills.sh"
+chmod +x "$VIBE_DIR/scripts/link.sh"
 
-# 5. 链接技能
-log_step "链接技能"
-"$VIBE_DIR/scripts/link-skills.sh"
+# 5. 链接技能库
+log_step "链接技能库"
+"$VIBE_DIR/scripts/link.sh"
 
 # 6. 处理 gitignore
 log_step "配置忽略文件"
@@ -348,10 +305,16 @@ echo "生成文件:"
 ls -la "$TARGET_DIR/AGENTS.md" "$TARGET_DIR/.skill-set" 2>/dev/null || true
 echo ""
 echo "下一步:"
-echo "  1. 编辑 .skill-set 声明所需技能"
-echo "  2. 运行 .vibe/scripts/link-skills.sh 更新链接"
+echo "  1. 查看可用技能: vibe list"
+echo "  2. 编辑 .skill-set 声明项目使用的技能"
 echo "  3. 编辑 AGENTS.md 填写项目信息"
 echo "  4. 开始开发！"
+echo ""
+echo "常用命令:"
+echo "  vibe list       列出可用技能"
+echo "  vibe skill <n>  添加技能到 .skill-set"
+echo "  vibe link       重新链接技能库"
+echo "  vibe status     查看状态"
 echo ""
 echo "注意:"
 if [ "$IS_GIT_REPO" = true ]; then

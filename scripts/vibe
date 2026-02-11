@@ -9,16 +9,19 @@ usage() {
     echo "Commands:"
     echo "  init [path]     初始化当前目录（或指定路径）为 Vibe Coding 项目"
     echo "  deinit          从当前目录移除 Vibe Coding 配置"
-    echo "  skill <name>    添加技能到当前项目"
-    echo "  update          更新所有技能链接"
+    echo "  link            重新链接技能库"
+    echo "  skill <name>    添加技能到 .skill-set"
+    echo "  list            列出可用技能"
     echo "  status          查看当前项目 Vibe 状态"
     echo ""
     echo "Examples:"
     echo "  vibe init                    # 初始化当前目录"
     echo "  vibe init ~/projects/myapp   # 初始化指定目录"
     echo "  vibe deinit                  # 移除 Vibe Coding 配置"
-    echo "  vibe skill docker            # 添加 docker 技能"
-    echo "  vibe update                  # 更新技能链接"
+    echo "  vibe link                    # 重新链接技能库"
+    echo "  vibe skill stm32             # 添加 stm32 到 .skill-set"
+    echo "  vibe list                    # 列出所有可用技能"
+    echo "  vibe status                  # 查看状态"
 }
 
 case "${1:-}" in
@@ -30,8 +33,22 @@ case "${1:-}" in
         shift
         "$SKILLS_REGISTRY/scripts/add-skill.sh" "$@"
         ;;
-    update)
-        "$SKILLS_REGISTRY/scripts/update-skills.sh"
+    link)
+        if [ -f ".vibe/scripts/link.sh" ]; then
+            .vibe/scripts/link.sh
+        else
+            echo "错误: 未找到 link 脚本，请先运行 vibe init"
+            exit 1
+        fi
+        ;;
+    list)
+        if [ -d ".vibe/skills" ]; then
+            echo "可用技能:"
+            find -L .vibe/skills -name "SKILL.md" -exec dirname {} \; | sed 's|.vibe/skills/||' | sort
+        else
+            echo "错误: 未找到技能库，请先运行 vibe init"
+            exit 1
+        fi
         ;;
     deinit)
         shift

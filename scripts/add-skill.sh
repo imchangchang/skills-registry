@@ -44,7 +44,4 @@ fi
 
 # 添加到 .skill-set
 echo "$SKILL_PATH" >> .skill-set
-echo "[OK] 已添加技能: $SKILL_NAME"
-
-# 重新链接
-.vibe/scripts/link-skills.sh
+echo "[OK] 已添加技能到 .skill-set: $SKILL_NAME"

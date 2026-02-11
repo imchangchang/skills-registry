@@ -196,9 +196,6 @@ if [ -f "$TARGET_DIR/.gitignore" ]; then
         grep -v "\.skill-set" | \
         grep -v "\.vibe/" | \
         grep -v "AGENTS\.md" | \
-        grep -v "\.vibe/skills/" | \
-        grep -v "\.vibe/backups/" | \
-        grep -v "\.skill-updates-todo\.md" | \
         grep -v "\.ai-context/\*" | \
         grep -v "!\.ai-context/\.gitkeep" > "$tmp_file" || true
         
