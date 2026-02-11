@@ -1,0 +1,85 @@
+# Docker 构建上下文排除文件
+# 复制到项目根目录，重命名为 .dockerignore
+
+# 版本控制
+.git
+.gitignore
+.gitattributes
+
+# 依赖（会在容器内安装）
+node_modules
+vendor
+__pycache__
+*.pyc
+*.pyo
+.pnpm-store
+.turbo
+
+# 构建产物
+dist
+build
+*.o
+*.a
+*.so
+*.exe
+
+# 测试和覆盖率
+coverage
+.nyc_output
+*.test.js
+*.spec.js
+
+# 临时文件
+.tmp
+tmp
+*.tmp
+*.log
+logs
+*.swp
+*.swo
+*~
+
+# IDE 和编辑器
+.vscode
+.idea
+*.iml
+
+# 大型资源文件（如不需要）
+*.mp4
+*.mov
+*.avi
+*.zip
+*.tar.gz
+assets/videos/
+assets/images/
+
+# 文档（如不需要在容器内构建）
+docs/
+*.md
+!README.md
+
+# CI/CD 配置
+.github
+.gitlab-ci.yml
+.travis.yml
+
+# 本地环境文件
+.env
+.env.local
+.env.*.local
+
+# Docker 自身
+docker/
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# 嵌入式项目特殊排除
+.mxproject
+.settings/
+Debug/
+Release/
+*.bin
+*.hex
+*.elf
+*.map

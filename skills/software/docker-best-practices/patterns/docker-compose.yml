@@ -1,0 +1,85 @@
+# Docker Compose 完整示例
+# 基于 OpenClaw 项目实践
+
+services:
+  # 主服务（长期运行）
+  app-gateway:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        - BUILD_ENV=production
+    image: myapp:${VERSION:-latest}
+    container_name: myapp-gateway
+    environment:
+      # 从 .env 文件加载
+      - APP_TOKEN=${APP_TOKEN}
+      - NODE_ENV=production
+      # 固定值
+      - TERM=xterm-256color
+    volumes:
+      # 配置持久化
+      - ${CONFIG_DIR:-~/.myapp}:/app/config
+      # 工作空间
+      - ${WORKSPACE_DIR:-~/.myapp/workspace}:/app/workspace
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    # 使用 init 系统处理信号和僵尸进程
+    init: true
+    # 自动重启策略
+    restart: unless-stopped
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # CLI 服务（交互式/一次性）
+  app-cli:
+    image: myapp:${VERSION:-latest}
+    container_name: myapp-cli
+    environment:
+      - APP_TOKEN=${APP_TOKEN}
+      - TERM=xterm-256color
+    volumes:
+      - ${CONFIG_DIR:-~/.myapp}:/app/config
+      - ${WORKSPACE_DIR:-~/.myapp/workspace}:/app/workspace
+    # 交互式配置
+    stdin_open: true
+    tty: true
+    init: true
+    # 默认不启动，需要时：docker compose run --rm app-cli
+    profiles: ["cli"]
+
+  # 开发服务（带热重载）
+  app-dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+    image: myapp:dev
+    container_name: myapp-dev
+    environment:
+      - NODE_ENV=development
+      - DEBUG=1
+    volumes:
+      - ${CONFIG_DIR:-~/.myapp}:/app/config
+      - ${WORKSPACE_DIR:-~/.myapp/workspace}:/app/workspace
+      # 源代码挂载（热重载）
+      - ../src:/app/src:ro
+    ports:
+      - "${APP_PORT:-8080}:8080"
+      # 调试端口
+      - "9229:9229"
+    init: true
+    profiles: ["dev"]
+
+# 命名卷（可选）
+# volumes:
+#   app-data:
+
+# 网络配置（可选）
+# networks:
+#   app-network:
+#     driver: bridge
