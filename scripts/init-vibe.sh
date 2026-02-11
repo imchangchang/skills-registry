@@ -108,6 +108,11 @@ log_info "使用技能库: $SKILLS_REGISTRY"
 log_step "创建 .vibe 目录"
 mkdir -p "$VIBE_DIR"/{skills,scripts,backups}
 
+# 创建 .ai-context 目录（用于会话持久化）
+log_step "创建 AI 上下文目录"
+mkdir -p "$TARGET_DIR/.ai-context"
+touch "$TARGET_DIR/.ai-context/.gitkeep"
+
 # 1. 创建 .skill-set
 log_step "创建技能声明文件"
 if [ ! -f "$TARGET_DIR/.skill-set" ] || [ "$FORCE" = true ]; then
@@ -269,6 +274,10 @@ VIBE_IGNORE_PATTERNS="# Vibe Coding (auto-generated)
 .vibe/skills/
 .vibe/backups/
 .skill-updates-todo.md
+
+# AI 会话上下文（保留目录，忽略内容）
+.ai-context/*
+!.ai-context/.gitkeep
 "
 
 if [ -f "$GITIGNORE" ]; then

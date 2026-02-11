@@ -71,7 +71,8 @@ echo "位置: $PROJECT_DIR"
 echo ""
 
 # 创建目录结构
-mkdir -p "$PROJECT_DIR"/{src,docs,scripts}
+mkdir -p "$PROJECT_DIR"/{src,docs,scripts,.ai-context}
+touch "$PROJECT_DIR/.ai-context/.gitkeep"
 
 # 复制 AGENTS.md 模板
 cp "$SCRIPT_DIR/AGENTS.md" "$PROJECT_DIR/AGENTS.md"
@@ -240,6 +241,28 @@ echo "[OK] 质量门禁通过"
 EOF
 
 chmod +x "$PROJECT_DIR/scripts/gate.sh"
+
+# 创建 .gitignore
+cat > "$PROJECT_DIR/.gitignore" << 'EOF'
+# 构建产物
+build/
+dist/
+*.o
+*.elf
+*.bin
+
+# IDE
+.vscode/
+.idea/
+
+# 临时文件
+*.tmp
+*.log
+
+# AI 会话上下文（保留目录，忽略内容）
+.ai-context/*
+!.ai-context/.gitkeep
+EOF
 
 echo "项目创建完成！"
 echo ""

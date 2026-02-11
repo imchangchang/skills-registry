@@ -119,6 +119,7 @@ graph LR
 | 技能加载记录 | 避免重复加载 |
 | 用户偏好 | 个性化设置 |
 | 待办事项 | `.skill-updates-todo.md` |
+| 会话记录 | `.ai-context/session-*.md` |
 
 ### 项目级持久化
 
@@ -127,6 +128,52 @@ graph LR
 ├── .skill-updates-todo.md    # 技能更新待办
 ├── backups/                  # 文件备份
 └── sessions/                 # 会话记录（可选）
+
+.ai-context/                  # AI 会话上下文（Git 忽略内容）
+├── .gitkeep                  # 确保目录被跟踪
+└── session-YYYY-MM-DD.md     # 实际会话记录（被忽略）
+```
+
+### 上下文管理流程
+
+**初始化时**（`vibe init` 自动创建）：
+```bash
+mkdir -p .ai-context
+touch .ai-context/.gitkeep
+```
+
+**会话结束时**（AI 助手执行）：
+```bash
+# 整理关键决策写入会话记录
+cat > .ai-context/session-2024-01-15.md << 'EOF'
+# Session 2024-01-15
+
+## 关键决策
+- 选择 FreeRTOS 作为 RTOS
+- 确定任务优先级分配策略
+
+## 下一步
+- 实现任务间通信
+EOF
+```
+
+**会话恢复时**（AI 助手执行）：
+```bash
+# 1. 检测历史会话
+ls .ai-context/session-*.md 2>/dev/null
+
+# 2. 向用户展示摘要
+# 3. 用户确认后恢复上下文
+# 4. 可选：删除旧文件避免堆积
+```
+
+### Git 配置
+
+`.gitignore`:
+```gitignore
+# AI 会话上下文（保留目录，忽略内容）
+.ai-context/*
+!.ai-context/.gitkeep
 ```
 
 ## 4. 质量门控（Quality Gates）

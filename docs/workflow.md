@@ -135,10 +135,21 @@ vibe init
 ```
 my-embedded-project/
 ├── .vibe/                # Vibe 配置
+│   ├── skills/           # 链接的技能
+│   ├── scripts/          # 辅助脚本
+│   └── backups/          # 文件备份
+├── .ai-context/          # AI 会话上下文（Git 忽略内容）
+│   └── .gitkeep          # 确保目录被跟踪
 ├── .skill-set            # 技能声明
 ├── AGENTS.md             # AI 开发指南
-└── .vibeignore           # 忽略规则
+└── .gitignore            # 忽略规则
 ```
+
+**关于 `.ai-context/`**：
+- 用于保存 AI 会话记录，支持上下文恢复
+- 内容由 AI 自动管理，用户无需手动操作
+- 目录被 Git 跟踪，但内容被忽略
+- 恢复上下文后建议删除旧文件避免堆积
 
 ### 2. 配置技能
 
