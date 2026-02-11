@@ -157,13 +157,13 @@ test-check
 #!/bin/bash
 # gate.sh
 
-echo "🔍 运行质量门禁..."
+echo "[SEARCH] 运行质量门禁..."
 
 # 1. 编译检查（零警告）
 make clean
 make 2>&1 | tee build.log
 if grep -i "warning" build.log; then
-    echo "❌ 存在编译警告"
+    echo "[X] 存在编译警告"
     exit 1
 fi
 
@@ -175,7 +175,7 @@ fi
 # 3. 代码格式
 clang-format --dry-run --Werror src/*.c
 
-echo "✅ 质量门禁通过"
+echo "[OK] 质量门禁通过"
 ```
 
 ### 质量门触发时机

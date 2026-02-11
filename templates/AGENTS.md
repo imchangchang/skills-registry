@@ -56,14 +56,14 @@
 
 ```bash
 # 禁止操作
-# ❌ git add .
-# ❌ git commit -am "message"
+# [X] git add .
+# [X] git commit -am "message"
 
 # 正确操作
-# ✅ 精确添加
+# [OK] 精确添加
 git add src/file1.c src/file2.h
 
-# ✅ 规范提交
+# [OK] 规范提交
 git commit -m "feat(gpio): add interrupt debounce support"
 ```
 
@@ -114,17 +114,17 @@ git push -u origin feature/xxx
 
 ## 多代理安全规则（强制）
 
-⚠️ **以下操作禁止**：
-- ❌ 创建 `git stash`
-- ❌ 切换分支（除非明确要求）
-- ❌ 修改 `.worktrees/`
-- ❌ 使用 `git add -A` 或 `git commit -a`
-- ❌ 直接 push 到 main/master
+[WARN] **以下操作禁止**：
+- [X] 创建 `git stash`
+- [X] 切换分支（除非明确要求）
+- [X] 修改 `.worktrees/`
+- [X] 使用 `git add -A` 或 `git commit -a`
+- [X] 直接 push 到 main/master
 
-✅ **允许操作**：
-- ✅ 在当前分支精确提交
-- ✅ 查看状态/日志/diff
-- ✅ 创建功能分支
+[OK] **允许操作**：
+- [OK] 在当前分支精确提交
+- [OK] 查看状态/日志/diff
+- [OK] 创建功能分支
 
 ## 工具脚本
 

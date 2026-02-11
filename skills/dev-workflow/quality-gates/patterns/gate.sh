@@ -4,7 +4,7 @@
 
 set -e
 
-echo "🔍 运行质量门禁..."
+echo "[SEARCH] 运行质量门禁..."
 
 # 根据项目类型自动检测
 if [ -f "CMakeLists.txt" ] || [ -f "Makefile" ]; then
@@ -14,7 +14,7 @@ elif [ -f "requirements.txt" ] || [ -f "pyproject.toml" ]; then
 elif [ -f "package.json" ]; then
     PROJECT_TYPE="node"
 else
-    echo "⚠️ 未知项目类型，请手动配置检查"
+    echo "[WARN] 未知项目类型，请手动配置检查"
     exit 1
 fi
 
@@ -25,31 +25,31 @@ case $PROJECT_TYPE in
         echo "=== C 项目检查 ==="
         
         # 1. 编译
-        echo "📦 编译检查..."
+        echo "[PACKAGE] 编译检查..."
         make clean >/dev/null 2>&1 || true
         if ! make 2>&1 | tee /tmp/build.log; then
-            echo "❌ 编译失败"
+            echo "[X] 编译失败"
             exit 1
         fi
         
         # 2. 警告检查
         if grep -i "warning" /tmp/build.log >/dev/null 2>&1; then
-            echo "⚠️ 发现编译警告:"
+            echo "[WARN] 发现编译警告:"
             grep -i "warning" /tmp/build.log
         fi
         
         # 3. 静态分析（如果安装了 cppcheck）
         if command -v cppcheck >/dev/null 2>&1; then
-            echo "🔍 静态分析..."
+            echo "[SEARCH] 静态分析..."
             cppcheck --enable=all --error-exitcode=1 \
                 --suppress=missingIncludeSystem \
                 src/ 2>&1 | head -50 || {
-                echo "❌ 静态分析发现问题"
+                echo "[X] 静态分析发现问题"
                 exit 1
             }
         fi
         
-        echo "✅ C 项目检查通过"
+        echo "[OK] C 项目检查通过"
         ;;
         
     python)
@@ -63,7 +63,7 @@ case $PROJECT_TYPE in
         
         # 2. 类型检查
         if command -v mypy >/dev/null 2>&1; then
-            echo "🔍 类型检查..."
+            echo "[SEARCH] 类型检查..."
             mypy src/ || exit 1
         fi
         
@@ -73,14 +73,14 @@ case $PROJECT_TYPE in
             pytest || exit 1
         fi
         
-        echo "✅ Python 项目检查通过"
+        echo "[OK] Python 项目检查通过"
         ;;
         
     *)
-        echo "❌ 未实现的项目类型: $PROJECT_TYPE"
+        echo "[X] 未实现的项目类型: $PROJECT_TYPE"
         exit 1
         ;;
 esac
 
 echo ""
-echo "🎉 所有质量门禁通过！"
+echo "[PARTY] 所有质量门禁通过！"

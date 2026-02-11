@@ -8,7 +8,7 @@ Vibe Coding 默认假设多个 AI 代理可能同时操作同一个仓库，因�
 
 ## 禁止操作清单
 
-### ❌ 绝对禁止
+### [X] 绝对禁止
 
 | 操作 | 原因 | 替代方案 |
 |------|------|---------|
@@ -18,7 +18,7 @@ Vibe Coding 默认假设多个 AI 代理可能同时操作同一个仓库，因�
 | 修改 `.worktrees/` | 可能破坏其他代理的工作区 | 不碰 worktree 目录 |
 | `git pull --rebase --autostash` | autostash 可能产生冲突 | 手动处理变更后再 pull |
 
-### ⚠️ 需要确认的操作
+### [WARN] 需要确认的操作
 
 | 操作 | 场景 | 确认方式 |
 |------|------|---------|
@@ -28,7 +28,7 @@ Vibe Coding 默认假设多个 AI 代理可能同时操作同一个仓库，因�
 
 ## 安全操作模式
 
-### ✅ 推荐的 Git 工作流
+### [OK] 推荐的 Git 工作流
 
 ```bash
 # 1. 检查状态（始终先检查）
@@ -65,7 +65,7 @@ shift
 
 # 禁止通配符
 if [[ "$*" == *"."* ]] || [[ "$*" == *"*"* ]]; then
-    echo "❌ Error: 不要使用通配符或 '.'"
+    echo "[X] Error: 不要使用通配符或 '.'"
     exit 1
 fi
 
@@ -77,13 +77,13 @@ git add "$@"
 
 # 检查有变更
 if git diff --cached --quiet; then
-    echo "⚠️ Warning: 没有要提交的变更"
+    echo "[WARN] Warning: 没有要提交的变更"
     exit 1
 fi
 
 # 提交
 git commit -m "$MESSAGE"
-echo "✅ 提交成功: $MESSAGE"
+echo "[OK] 提交成功: $MESSAGE"
 ```
 
 ## 多代理协作模式
@@ -182,7 +182,7 @@ project/
 ```bash
 # 1. 立即停止操作
 # 2. 报告给用户
-echo "⚠️ 发现其他代理的变更:"
+echo "[WARN] 发现其他代理的变更:"
 git status
 
 # 3. 等待用户确认如何处理
@@ -194,7 +194,7 @@ git status
 # 如果发现 stash 不是自己创建的
 # 不应用它，直接报告给用户
 git stash list
-echo "⚠️ 发现未授权的 stash，请人工处理"
+echo "[WARN] 发现未授权的 stash，请人工处理"
 ```
 
 ### worktree 冲突
@@ -203,7 +203,7 @@ echo "⚠️ 发现未授权的 stash，请人工处理"
 # 如果发现 .worktrees/ 有其他代理的工作区
 # 不修改它，使用独立目录
 ls -la .worktrees/
-echo "⚠️ 发现其他工作区，创建新的独立目录"
+echo "[WARN] 发现其他工作区，创建新的独立目录"
 ```
 
 ## 检查清单

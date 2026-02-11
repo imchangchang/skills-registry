@@ -202,7 +202,7 @@ while IFS= read -r line || [ -n "$line" ]; do
     target_path="$SKILLS_DIR/$skill_name"
     
     if [ ! -d "$source_path" ]; then
-        echo "  ⚠️  未找到技能: $skill_path"
+        echo "  [WARN]  未找到技能: $skill_path"
         continue
     fi
     
@@ -211,7 +211,7 @@ while IFS= read -r line || [ -n "$line" ]; do
     fi
     
     ln -sf "$source_path" "$target_path"
-    echo "  ✅ $skill_name"
+    echo "  [OK] $skill_name"
 done < "$SKILL_SET"
 
 echo ""
@@ -228,7 +228,7 @@ cat > "$PROJECT_DIR/scripts/gate.sh" << 'EOF'
 
 set -e
 
-echo "🔍 运行质量门禁..."
+echo "[SEARCH] 运行质量门禁..."
 
 # TODO: 添加项目特定的检查
 # 示例：
@@ -236,7 +236,7 @@ echo "🔍 运行质量门禁..."
 # - 代码格式检查
 # - 测试运行
 
-echo "✅ 质量门禁通过"
+echo "[OK] 质量门禁通过"
 EOF
 
 chmod +x "$PROJECT_DIR/scripts/gate.sh"

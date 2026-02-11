@@ -37,7 +37,7 @@ make 2>&1 | tee build.log
 
 # 检查是否有警告
 if grep -i "warning" build.log; then
-    echo "❌ 存在编译警告"
+    echo "[X] 存在编译警告"
     exit 1
 fi
 ```

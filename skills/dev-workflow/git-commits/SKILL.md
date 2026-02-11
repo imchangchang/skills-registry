@@ -51,15 +51,15 @@ docs: update API usage examples
 ## 多代理安全规则
 
 ### 禁止操作
-- ❌ 创建 `git stash`
-- ❌ 切换分支（除非明确要求）
-- ❌ 修改 `.worktrees/`
-- ❌ 使用 `git add -A`
+- [X] 创建 `git stash`
+- [X] 切换分支（除非明确要求）
+- [X] 修改 `.worktrees/`
+- [X] 使用 `git add -A`
 
 ### 允许操作
-- ✅ 精确添加指定文件
-- ✅ 在当前分支创建 commit
-- ✅ 查看状态/日志/diff
+- [OK] 精确添加指定文件
+- [OK] 在当前分支创建 commit
+- [OK] 查看状态/日志/diff
 
 ## 提交脚本模板
 

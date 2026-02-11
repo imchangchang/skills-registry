@@ -18,4 +18,4 @@ echo "更新技能链接..."
 .vibe/scripts/link-skills.sh
 
 echo ""
-echo "✅ 技能已更新"
+echo "[OK] 技能已更新"

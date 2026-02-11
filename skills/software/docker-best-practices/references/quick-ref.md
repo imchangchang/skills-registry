@@ -87,21 +87,21 @@ docker compose run --rm service-name command
 ## 安全最佳实践
 
 ```dockerfile
-# ✅ 使用非 root 用户
+# [OK] 使用非 root 用户
 RUN useradd -m appuser
 USER appuser
 
-# ✅ 使用特定版本标签
+# [OK] 使用特定版本标签
 FROM node:18.19.0-alpine3.18
 # 而不是 FROM node:latest
 
-# ✅ 最小化层数
+# [OK] 最小化层数
 RUN apt-get update && apt-get install -y \
     package1 \
     package2 \
     && rm -rf /var/lib/apt/lists/*
 
-# ✅ 不暴露敏感信息
+# [OK] 不暴露敏感信息
 # 不要在 Dockerfile 中写密码
 # 使用运行时环境变量
 ```

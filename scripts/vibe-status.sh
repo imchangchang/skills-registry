@@ -8,12 +8,12 @@ echo ""
 
 # 检查是否初始化
 if [ ! -d ".vibe" ]; then
-    echo "❌ 未初始化"
+    echo "[X] 未初始化"
     echo "运行: init-vibe.sh"
     exit 1
 fi
 
-echo "✅ 已初始化"
+echo "[OK] 已初始化"
 echo ""
 
 # 显示技能库路径
@@ -45,9 +45,9 @@ echo ""
 # 检查 gitignore
 if [ -f ".gitignore" ]; then
     if grep -q ".vibe" .gitignore; then
-        echo "✅ .gitignore 已配置"
+        echo "[OK] .gitignore 已配置"
     else
-        echo "⚠️  .gitignore 未配置 .vibe"
+        echo "[WARN]  .gitignore 未配置 .vibe"
     fi
 else
     if [ -f ".vibeignore" ]; then

@@ -81,7 +81,7 @@ cat > "$FULL_PATH/references/quick-ref.md" << EOF
 TODO: 添加一页纸速查内容
 EOF
 
-echo "✅ Created skill: $FULL_PATH"
+echo "[OK] Created skill: $FULL_PATH"
 echo ""
 echo "Next steps:"
 echo "  1. Edit SKILL.md to add core content"

@@ -155,11 +155,11 @@ if [ ! -f "$TARGET_DIR/AGENTS.md" ] || [ "$FORCE" = true ]; then
 
 ## 多代理安全规则（强制）
 
-- ❌ 不要创建 `git stash`
-- ❌ 不要切换分支（除非明确要求）
-- ❌ 不要修改 `.worktrees/`
-- ❌ 不要使用 `git add -A`
-- ✅ 使用精确文件提交
+- [X] 不要创建 `git stash`
+- [X] 不要切换分支（除非明确要求）
+- [X] 不要修改 `.worktrees/`
+- [X] 不要使用 `git add -A`
+- [OK] 使用精确文件提交
 
 ## 技能迭代
 
@@ -230,7 +230,7 @@ while IFS= read -r line || [ -n "\$line" ]; do
     target_path="\$SKILLS_DIR/\$skill_name"
     
     if [ ! -d "\$source_path" ]; then
-        echo "  ⚠️  未找到: \$skill_path"
+        echo "  [WARN]  未找到: \$skill_path"
         continue
     fi
     
@@ -239,7 +239,7 @@ while IFS= read -r line || [ -n "\$line" ]; do
     fi
     
     ln -sf "\$source_path" "\$target_path"
-    echo "  ✅ \$skill_name"
+    echo "  [OK] \$skill_name"
 done < "\$SKILL_SET"
 
 echo ""

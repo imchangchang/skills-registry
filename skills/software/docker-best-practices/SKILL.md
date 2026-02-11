@@ -19,11 +19,11 @@ status: draft
 
 #### 使用非 root 用户运行（强制）
 ```dockerfile
-# ❌ 错误：使用 root 运行
+# [X] 错误：使用 root 运行
 FROM node:22
 CMD ["node", "app.js"]
 
-# ✅ 正确：创建并切换到非 root 用户
+# [OK] 正确：创建并切换到非 root 用户
 FROM node:22-bookworm
 RUN useradd --create-home --shell /bin/bash appuser
 USER appuser
@@ -43,7 +43,7 @@ FROM ubuntu:latest         # ~80MB
 
 #### 利用层缓存
 ```dockerfile
-# ✅ 先复制依赖清单，再安装
+# [OK] 先复制依赖清单，再安装
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
@@ -189,10 +189,10 @@ Release/
 
 ### 安全传递敏感信息
 ```bash
-# ✅ 使用环境文件
+# [OK] 使用环境文件
 docker run --env-file .env myapp
 
-# ✅ 使用 compose 时，在 .env 中定义
+# [OK] 使用 compose 时，在 .env 中定义
 # .env
 APP_TOKEN=secret
 CONFIG_DIR=/home/user/.myapp
