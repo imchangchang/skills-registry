@@ -132,11 +132,13 @@ git push -u origin feature/xxx
 - [X] 修改 `.worktrees/`
 - [X] 使用 `git add -A` 或 `git commit -a`
 - [X] 直接 push 到 main/master
+- [X] 未经明确指令执行 `git push`
 
 [OK] **允许操作**：
 - [OK] 在当前分支精确提交
 - [OK] 查看状态/日志/diff
 - [OK] 创建功能分支
+- [OK] 用户明确要求后执行推送
 
 ## 工具脚本
 
