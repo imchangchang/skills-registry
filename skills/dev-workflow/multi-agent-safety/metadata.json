@@ -1,0 +1,8 @@
+{
+  "name": "multi-agent-safety",
+  "description": "多代理协作安全规则，强制执行 Git 操作安全和推送确认流程",
+  "version": "1.0.0",
+  "author": "AI Assistant",
+  "tags": ["git", "safety", "multi-agent", "workflow", "vibe-coding"],
+  "dependencies": ["dev-workflow/git-commits"]
+}

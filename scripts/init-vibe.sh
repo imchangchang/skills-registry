@@ -125,7 +125,11 @@ if [ ! -f "$TARGET_DIR/.skill-set" ] || [ "$FORCE" = true ]; then
 # 示例:
 #   dev-workflow/git-commits
 #   dev-workflow/quality-gates
+#   dev-workflow/multi-agent-safety
 #   embedded/mcu/st-stm32
+
+# 默认启用的安全规则（强制执行推送确认流程）
+dev-workflow/multi-agent-safety
 
 EOF
     
@@ -136,6 +140,8 @@ EOF
         done
         log_info "已添加初始技能: $INITIAL_SKILLS"
     fi
+    
+    log_info "已自动添加 multi-agent-safety 安全规则"
 fi
 
 # 2. 创建 AGENTS.md（如果不存在）
