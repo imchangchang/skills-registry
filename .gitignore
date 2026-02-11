@@ -1,0 +1,13 @@
+# 忽略临时文件
+*.tmp
+*.log
+.DS_Store
+
+# 忽略编辑器配置
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 忽略生成的索引（如果有）
+.index-cache/
