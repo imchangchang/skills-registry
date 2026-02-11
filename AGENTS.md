@@ -34,6 +34,8 @@ skills-registry/
 - 脚本使用 Bash（兼容 POSIX）
 - 文档使用 Markdown
 - 代码注释使用中文
+- 框图采用Mermaid绘制
+- 文件一律使用utf-8编码
 
 ### 文件组织
 - SKILL.md：核心指导文档，< 500 行
