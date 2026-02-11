@@ -1,6 +1,6 @@
 # session-management 变更记录
 
-## 2024-01-15
+## 2026-02-11
 
 - 初始创建
 - 定义 .ai-context/ 目录规范

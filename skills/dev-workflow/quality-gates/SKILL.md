@@ -1,7 +1,7 @@
 ---
 name: quality-gates
 description: 代码质量门禁与检查流程。定义提交前必须通过的质量检查。
-created: 2024-01-15
+created: 2026-02-11
 status: draft
 ---
 
@@ -92,4 +92,4 @@ pytest --cov=src --cov-report=term-missing
 每个项目应在 `scripts/gate.sh` 中定义自己的质量门。
 
 ## 迭代记录
-- 2024-01-15: 初始创建
+- 2026-02-11: 初始创建

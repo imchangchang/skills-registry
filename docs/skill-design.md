@@ -81,7 +81,7 @@ skill-name/
 ---
 name: skill-name                   # 技能标识
 description: 详细描述，包含触发关键词  # AI 判断是否使用
-created: 2024-01-15              # 创建日期
+created: 2026-02-11              # 创建日期
 status: draft | stable            # 状态
 ---
 
@@ -113,7 +113,7 @@ status: draft | stable            # 状态
 - references/detailed-guide.md
 
 ## 迭代记录
-- 2024-01-15: 初始创建
+- 2026-02-11: 初始创建
 ```
 
 ## 内容组织原则

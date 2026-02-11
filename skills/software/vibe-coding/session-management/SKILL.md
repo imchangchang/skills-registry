@@ -1,7 +1,7 @@
 ---
 name: session-management
 description: Vibe Coding 会话管理规范，包含 session 记录保存、上下文恢复、.ai-context 目录使用规范。适用于所有 Vibe Coding 项目的 AI 协作开发。
-created: 2024-01-15
+created: 2026-02-11
 status: draft
 ---
 
@@ -40,8 +40,8 @@ Session（会话）是一次完整的开发活动记录，包含：
 ```
 project-root/
 ├── .ai-context/              # AI 上下文目录
-│   ├── session-2024-01-15.md # 具体会话记录
-│   ├── session-2024-01-20.md # 另一个会话
+│   ├── session-2026-02-11.md # 具体会话记录
+│   ├── session-2026-02-12.md # 另一个会话
 │   └── README.md             # 索引说明
 ├── AGENTS.md                 # 引用 session
 └── .gitignore                # 忽略 .ai-context/
@@ -63,8 +63,8 @@ session-YYYY-MM-DD.md
 session-YYYY-MM-DD-[brief-description].md
 
 示例:
-session-2024-01-15.md
-session-2024-01-15-init-project.md
+session-2026-02-11.md
+session-2026-02-11-init-project.md
 ```
 
 ### 内容结构
@@ -159,7 +159,7 @@ EOF
 
 开发者告诉 AI：
 ```
-请读取 .ai-context/session-2024-01-15.md 恢复上下文
+请读取 .ai-context/session-2026-02-11.md 恢复上下文
 ```
 
 或 AI 自动检测：
@@ -220,11 +220,11 @@ Session 结束后：
 
 **AI**: "请确认项目路径，我将创建 session 记录"
 
-**生成的 session-2024-01-15.md**:
+**生成的 session-2026-02-11.md**:
 ```markdown
 # ROS2 导航项目初始化
 
-**日期**: 2024-01-15
+**日期**: 2026-02-11
 **主题**: ROS2 Navigation2 项目脚手架搭建
 **状态**: 进行中
 
@@ -255,4 +255,4 @@ Session 结束后：
 
 ## 迭代记录
 
-- 2024-01-15: 初始创建
+- 2026-02-11: 初始创建

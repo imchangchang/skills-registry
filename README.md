@@ -144,7 +144,7 @@ skill-name/
 ---
 name: skill-name
 description: 简短描述，让 AI 知道何时使用此技能
-created: 2024-01-15
+created: 2026-02-11
 status: draft  # draft → stable
 ---
 
@@ -174,7 +174,7 @@ status: draft  # draft → stable
 - references/quick-ref.md - 速查表
 
 ## 迭代记录
-- 2024-01-15: 初始创建
+- 2026-02-11: 初始创建
 ```
 
 ## 核心技能说明
@@ -231,10 +231,10 @@ cp templates/AGENTS.md ~/projects/my-project/AGENTS.md
 
 ## 迭代记录
 
-- 2024-01-15: 初始创建，添加 embedded 和 dev-workflow 基础技能
-- 2024-01-15: 添加 docker-best-practices 技能
-- 2024-01-15: 添加模板文件和项目初始化脚本
-- 2024-01-15: 添加安装脚本 `install.sh` 和 `vibe` 命令工具
+- 2026-02-11: 初始创建，添加 embedded 和 dev-workflow 基础技能
+- 2026-02-11: 添加 docker-best-practices 技能
+- 2026-02-11: 添加模板文件和项目初始化脚本
+- 2026-02-11: 添加安装脚本 `install.sh` 和 `vibe` 命令工具
 
 ---
 

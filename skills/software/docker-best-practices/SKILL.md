@@ -1,7 +1,7 @@
 ---
 name: docker-best-practices
 description: Docker 容器化最佳实践，包含安全加固、多服务编排、开发环境标准化。基于 OpenClaw 项目实践。
-created: 2024-01-15
+created: 2026-02-11
 status: draft
 ---
 
@@ -271,4 +271,4 @@ docker run --user $(id -u):$(id -g) -v $(pwd)/data:/app/data myapp
 
 ## 迭代记录
 
-- 2024-01-15: 初始创建，基于 OpenClaw 项目实践
+- 2026-02-11: 初始创建，基于 OpenClaw 项目实践

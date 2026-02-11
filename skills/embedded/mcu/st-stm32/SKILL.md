@@ -1,7 +1,7 @@
 ---
 name: st-stm32
 description: STM32 MCU development using HAL/LL drivers. Covers STM32F4/F7/H7 series clock, GPIO, interrupt, DMA, and timer configuration.
-created: 2024-01-15
+created: 2026-02-11
 status: draft
 ---
 
@@ -98,4 +98,4 @@ void HAL_GPIO_EXTI_IRQHandler(uint16_t GPIO_Pin) {
 - **系列差异**：references/series-differences.md - F4 vs F7 vs H7
 
 ## 迭代记录
-- 2024-01-15: 初始创建，包含 GPIO、中断基础
+- 2026-02-11: 初始创建，包含 GPIO、中断基础

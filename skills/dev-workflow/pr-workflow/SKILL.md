@@ -1,7 +1,7 @@
 ---
 name: pr-workflow
 description: Pull Request 工作流，包括创建、审查、合并的规范流程。
-created: 2024-01-15
+created: 2026-02-11
 status: draft
 ---
 
@@ -102,4 +102,4 @@ git branch -d feature/xxx
 - **不要** force push 他人的分支
 
 ## 迭代记录
-- 2024-01-15: 初始创建
+- 2026-02-11: 初始创建
