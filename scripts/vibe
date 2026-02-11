@@ -1,0 +1,88 @@
+#!/bin/bash
+# vibe - Vibe Coding 工具入口
+
+SKILLS_REGISTRY="${SKILLS_REGISTRY:-$HOME/skills-registry}"
+
+usage() {
+    echo "Usage: vibe <command> [options]"
+    echo ""
+    echo "Commands:"
+    echo "  init [path]        初始化当前目录（或指定路径）为 Vibe Coding 项目"
+    echo "  skill <name>       添加技能到当前项目"
+    echo "  update             更新所有技能链接"
+    echo "  status             查看当前项目 Vibe 状态"
+    echo "  remove             从当前项目移除 Vibe Coding"
+    echo "  uninstall          完全卸载 Skills Registry（系统级）"
+    echo ""
+    echo "Options:"
+    echo "  -h, --help         显示帮助"
+    echo "  -v, --version      显示版本"
+    echo ""
+    echo "Examples:"
+    echo "  vibe init                          # 初始化当前目录"
+    echo "  vibe init ~/projects/myapp         # 初始化指定目录"
+    echo "  vibe skill docker                  # 添加 docker 技能"
+    echo "  vibe update                        # 更新技能链接"
+    echo "  vibe remove                        # 从项目移除 Vibe"
+    echo "  vibe uninstall                     # 完全卸载"
+}
+
+version() {
+    echo "vibe 1.0.0"
+    echo "Skills Registry: $SKILLS_REGISTRY"
+}
+
+# 检查 skills-registry 是否存在
+check_skills_registry() {
+    if [ ! -d "$SKILLS_REGISTRY" ]; then
+        echo "错误: 无法找到技能库: $SKILLS_REGISTRY"
+        echo "请设置 SKILLS_REGISTRY 环境变量"
+        exit 1
+    fi
+}
+
+case "${1:-}" in
+    init)
+        shift
+        check_skills_registry
+        "$SKILLS_REGISTRY/scripts/init-vibe.sh" "$@"
+        ;;
+    skill)
+        shift
+        check_skills_registry
+        "$SKILLS_REGISTRY/scripts/add-skill.sh" "$@"
+        ;;
+    update)
+        check_skills_registry
+        "$SKILLS_REGISTRY/scripts/update-skills.sh"
+        ;;
+    status)
+        check_skills_registry
+        "$SKILLS_REGISTRY/scripts/vibe-status.sh"
+        ;;
+    remove)
+        shift
+        check_skills_registry
+        "$SKILLS_REGISTRY/scripts/remove-vibe.sh" "$@"
+        ;;
+    uninstall)
+        shift
+        check_skills_registry
+        "$SKILLS_REGISTRY/scripts/uninstall.sh" "$@"
+        ;;
+    help|--help|-h)
+        usage
+        ;;
+    version|--version|-v)
+        version
+        ;;
+    "")
+        usage
+        exit 1
+        ;;
+    *)
+        echo "错误: 未知命令: ${1:-}"
+        usage
+        exit 1
+        ;;
+esac

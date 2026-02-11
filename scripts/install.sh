@@ -185,6 +185,10 @@ SCRIPT_EOF
     echo "  3. 或运行: $SKILLS_REGISTRY/scripts/init-vibe.sh"
     echo ""
     echo "项目位置: $SKILLS_REGISTRY"
+    echo ""
+    echo "卸载方法:"
+    echo "  vibe uninstall          # 完全卸载 Skills Registry"
+    echo "  vibe remove             # 从当前项目移除 Vibe Coding"
 }
 
 # 创建辅助脚本
@@ -203,10 +207,13 @@ main() {
             install_skills_registry
             ;;
         uninstall)
-            log_warn "卸载功能尚未实现"
-            log_info "手动卸载方法:"
-            echo "  1. 从 shell 配置文件 (~/.bashrc 或 ~/.zshrc) 删除 SKILLS_REGISTRY 相关行"
-            echo "  2. 删除 $SKILLS_REGISTRY 目录"
+            # 调用 uninstall.sh
+            if [ -f "$SKILLS_REGISTRY/scripts/uninstall.sh" ]; then
+                "$SKILLS_REGISTRY/scripts/uninstall.sh"
+            else
+                log_error "找不到卸载脚本"
+                exit 1
+            fi
             ;;
         *)
             echo "Usage: $0 [install|uninstall]"
