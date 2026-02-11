@@ -14,6 +14,24 @@ Vibe Coding 方法论中的核心术语解释。
 ### AI Agent（AI 代理）
 指使用 Vibe Coding 方法论的 AI 助手，如 Claude、GPT 等。Agent 通过读取 AGENTS.md 和 Skill 来理解项目上下文。
 
+### AI Assistant Convention（AI 助手约定）
+SKILL.md 或 AGENTS.md 中的特殊章节，定义 AI 必须遵循的规则。通常标记为 `## AI 助手约定（强制执行）`，包含：
+- `[强制]` 必须执行的操作
+- `[禁止]` 绝不能做的操作  
+- `[OK]` 推荐的做法
+
+AI 助手读取到此类章节时，必须严格遵守其中的规定。
+
+## C
+
+### Convention over Configuration（约定优于配置）
+核心方法论之一，SKILL 不是可选的参考资料，而是**强制执行的工作约定**：
+- `[强制]` 标记的操作 AI 必须执行
+- `[禁止]` 标记的操作 AI 绝不能做  
+- `[OK]` 标记的做法 AI 应该采用
+
+通过 SKILL 固化流程，让 AI 遵循规则做事情，而不是每次依赖用户说明。
+
 ## D
 
 ### Dev-Workflow（开发工作流）

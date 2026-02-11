@@ -1,6 +1,104 @@
-# 四种核心方法论
+# 五种核心方法论
 
-Vibe Coding 基于四种核心方法论，确保 AI 协作开发的高效性和可靠性。
+Vibe Coding 基于五种核心方法论，确保 AI 协作开发的高效性和可靠性。
+
+## 0. 约定优于配置（Convention over Configuration）
+
+### 核心理念
+
+> **SKILL 不是知识库，而是规则约定**
+
+传统思路：SKILL = 参考资料（AI 可以读，也可以不读）
+Vibe Coding：SKILL = **强制执行的工作约定**（AI 必须遵循）
+
+### 规则约定的三个层次
+
+```
+Level 0: AI 助手全局约定（所有项目通用）
+    ↓ 声明于
+    AGENTS.md / SKILL.md "AI 助手约定" 章节
+    
+Level 1: 项目级约定（特定项目类型）
+    ↓ 声明于
+    .skill-set + SKILL.md
+    
+Level 2: 任务级约定（具体场景）
+    ↓ 声明于
+    SKILL.md 的具体章节
+```
+
+### 约定示例
+
+**示例 1：AI 项目 Prompt 管理约定**
+```markdown
+## AI 助手约定（强制执行）
+
+### [强制] Prompt 文件化管理
+
+AI 助手在开发 AI 功能时，**禁止将 Prompt 硬编码在代码中**。
+
+正确做法：
+- [OK] 必须将 Prompt 放在 prompts/ 下的 .md 文件
+- [OK] 使用 YAML Frontmatter 格式记录版本和参数
+
+错误做法：
+- [X] messages = [{"role": "system", "content": "你是..."}]
+```
+
+**示例 2：Git 提交约定**
+```markdown
+## AI 助手约定（强制执行）
+
+### [禁止] 以下操作
+- [X] git add . 或 git add -A
+- [X] git commit -am "message"
+- [X] 未经明确指令执行 git push
+
+### [强制] 正确流程
+1. 使用 git status 查看变更
+2. 使用 git add <具体文件> 精确添加
+3. 使用规范格式提交：type(scope): subject
+```
+
+### 约定的特征
+
+| 特征 | 说明 |
+|------|------|
+| **明确性** | 使用 `[强制]`、`[禁止]`、`[OK]` 等明确标记 |
+| **可检查** | AI 助手能自我检查是否遵守 |
+| **自动化** | 通过脚本/工具辅助执行（如 init-vibe.sh 自动创建目录） |
+| **可追踪** | 违反约定时，能定位到具体 SKILL 条款 |
+
+### 为什么需要约定？
+
+**问题：AI 助手行为不一致**
+- 不同 AI 对同一任务处理方式不同
+- 同一 AI 不同会话行为有差异
+- 用户需要反复解释要求
+
+**解决：SKILL 固化流程**
+```
+用户: "提交代码"
+      ↓
+AI 读取 .skill-set → 发现 git-commits skill
+      ↓
+AI 读取 SKILL.md → 找到 "AI 助手约定" 章节
+      ↓
+AI 执行约定的流程（无需用户说明）
+      ↓
+用户得到一致、可预期的结果
+```
+
+### 创建有效约定的原则
+
+1. **具体可执行**：不要"注意代码质量"，要"运行 ./scripts/gate.sh 通过所有检查"
+2. **二义性排除**：用 `[强制]`/`[禁止]`/`[OK]` 代替"建议"、"应该"
+3. **自动化友好**：约定应能被脚本检查或自动执行
+4. **版本化**：约定随 SKILL 版本更新，变更可追溯
+
+---
+
+## 2. 渐进式披露（Progressive Disclosure）
 
 ## 1. 渐进式披露（Progressive Disclosure）
 
@@ -57,7 +155,7 @@ AI 通过 description 判断是否触发该 skill。
 - 大文档拆分到 references/
 - 明确说明何时加载 reference
 
-## 2. 技能激活（Skill Activation）
+## 3. 技能激活（Skill Activation）
 
 ### 概念
 
@@ -95,7 +193,7 @@ graph LR
     C --> E[执行技能指导]
 ```
 
-## 3. 会话持久化（Session Persistence）
+## 4. 会话持久化（Session Persistence）
 
 ### 概念
 
@@ -176,7 +274,7 @@ ls .ai-context/session-*.md 2>/dev/null
 !.ai-context/.gitkeep
 ```
 
-## 4. 质量门控（Quality Gates）
+## 5. 质量门控（Quality Gates）
 
 ### 概念
 
@@ -244,27 +342,29 @@ graph LR
 - [ ] 测试通过
 - [ ] 符合项目规范
 
-## 四种方法论的协同
+## 五种方法论的协同
 
 ```mermaid
 graph TB
     subgraph 开发流程
-        A[任务开始] --> B[渐进式披露<br/>加载必要上下文]
-        B --> C[技能激活<br/>识别相关技能]
-        C --> D[AI 生成代码]
-        D --> E[质量门控<br/>强制检查]
-        E -->|通过| F[代码提交]
-        E -->|失败| D
-        F --> G[会话持久化<br/>记录待办]
+        A[任务开始] --> B[约定优于配置<br/>加载执行规则]
+        B --> C[渐进式披露<br/>加载必要上下文]
+        C --> D[技能激活<br/>识别相关技能]
+        D --> E[AI 生成代码]
+        E --> F[质量门控<br/>强制检查]
+        F -->|通过| G[代码提交]
+        F -->|失败| E
+        G --> H[会话持久化<br/>记录待办]
     end
 ```
 
 ## 最佳实践
 
-1. **渐进式披露**：保持 SKILL.md 精简，详细内容放 references/
-2. **技能激活**：在 description 中明确触发条件
-3. **会话持久化**：定期整理 `.skill-updates-todo.md`
-4. **质量门控**：根据项目特点定制检查项
+1. **约定优于配置**：每个 SKILL 都应包含 "AI 助手约定" 章节，明确 AI 必须遵循的规则
+2. **渐进式披露**：保持 SKILL.md 精简，详细内容放 references/
+3. **技能激活**：在 description 中明确触发条件
+4. **会话持久化**：定期整理 `.skill-updates-todo.md`
+5. **质量门控**：根据项目特点定制检查项
 
 ## 下一步
 
