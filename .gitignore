@@ -11,3 +11,7 @@
 
 # 忽略生成的索引（如果有）
 .index-cache/
+
+# 忽略 AI 会话上下文（保留目录）
+.ai-context/*
+!.ai-context/.gitkeep
