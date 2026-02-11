@@ -206,4 +206,4 @@ git push -u origin feature/xxx
 *基于 Skills Registry 中的 dev-workflow 技能集*
 
 **修改历史**：
-- 2024-XX-XX: 初始创建
+- 2026-02-11: 初始创建

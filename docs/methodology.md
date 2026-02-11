@@ -145,8 +145,8 @@ touch .ai-context/.gitkeep
 **会话结束时**（AI 助手执行）：
 ```bash
 # 整理关键决策写入会话记录
-cat > .ai-context/session-2024-01-15.md << 'EOF'
-# Session 2024-01-15
+cat > .ai-context/session-2026-02-11.md << 'EOF'
+# Session 2026-02-11
 
 ## 关键决策
 - 选择 FreeRTOS 作为 RTOS

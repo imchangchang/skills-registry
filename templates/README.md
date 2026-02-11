@@ -87,4 +87,4 @@ dev-workflow/quality-gates
 
 ---
 
-*模板版本：2024-01*
+*模板版本：2026-02*
