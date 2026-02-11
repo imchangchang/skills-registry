@@ -1,0 +1,8 @@
+{
+  "name": "python-cli",
+  "description": "Python 命令行应用开发，基于 Click 框架的 CLI 最佳实践",
+  "version": "0.1.0",
+  "author": "AI Assistant",
+  "tags": ["python", "cli", "click", "command-line"],
+  "dependencies": ["software/python-dev"]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "video-processing",
+  "description": "视频处理开发，包含 FFmpeg、OpenCV 和关键帧提取",
+  "version": "0.1.0",
+  "author": "AI Assistant",
+  "tags": ["video", "ffmpeg", "opencv", "image-processing"],
+  "dependencies": ["software/python-dev"]
+}
