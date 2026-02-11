@@ -119,6 +119,7 @@ vibe update
 # 示例
 ./scripts/new-skill.sh embedded/mcu/gd32
 ./scripts/new-skill.sh software/ros2
+```
 
 ## Skill 格式规范
 
