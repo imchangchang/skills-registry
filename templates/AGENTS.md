@@ -2,7 +2,28 @@
 
 本项目使用 Vibe Coding（AI 协作开发）方法论。
 
-## AI 助手上下文恢复
+## AI 助手工作约定
+
+### 1. AI 项目自动识别
+
+**如果项目涉及 AI 功能**（使用 LLM API、有 `ai-api-integration` skill），AI 助手应：
+
+1. **检查 `prompts/` 目录存在性**
+2. **如不存在，自动创建**：
+   ```
+   prompts/
+   ├── chat/
+   ├── code-review/
+   ├── vision/
+   ├── structured-output/
+   └── README.md
+   ```
+3. **Prompt 文件管理**：
+   - [X] **禁止**将 Prompt 硬编码在代码中
+   - [OK] **必须**将 Prompt 放在 `prompts/` 下的 `.md` 文件
+   - [OK] 使用 YAML Frontmatter 格式记录版本和参数
+
+### 2. 上下文恢复
 
 **首次进入项目时，AI 助手应检查 `.ai-context/*.md`**：
 - 如有会话记录，询问用户是否恢复上下文
@@ -17,7 +38,15 @@
 ## 启用的 Skills
 
 通过 `.skill-set` 声明，当前启用：
-<!-- AI 读取 .skill-set 加载对应技能 -->
+
+**AI 助手操作步骤**：
+1. 读取 `.skill-set` 文件
+2. 对于每个声明的技能：
+   - 加载 `.vibe/skills/<skill-path>/SKILL.md`
+   - 检查是否有 AI 助手约定章节
+   - 如有约定，**强制执行**
+
+<!-- AI 注意：如包含 ai-api-integration，必须执行 Prompt 文件化管理 -->
 
 **技能加载协议**：
 1. **Metadata 层**：读取每个 skill 的 name/description

@@ -295,6 +295,64 @@ EOF
     log_info "已创建 README.md"
 fi
 
+# 8. 检测 AI 项目并创建 Prompt 结构
+if grep -q "ai-api-integration" "$TARGET_DIR/.skill-set" 2>/dev/null; then
+    log_step "检测到 AI API 集成技能，创建 Prompt 管理结构"
+    
+    # 创建 prompts 目录
+    mkdir -p "$TARGET_DIR/prompts"/{chat,code-review,vision,structured-output}
+    
+    # 创建 README
+    cat > "$TARGET_DIR/prompts/README.md" << 'EOF'
+# 项目 Prompt 库
+
+本目录存放 AI Prompt 文件，采用 YAML Frontmatter + Markdown 格式。
+
+## 文件格式
+
+```markdown
+---
+name: prompt-name
+version: "1.0.0"
+models: [kimi-k2.5, gpt-4o]
+parameters:
+  temperature: 0.7
+  max_tokens: 2000
+variables: [var1, var2]
+---
+
+Prompt 内容，支持 {var1} 模板变量...
+```
+
+## 模型特定版本
+
+- `prompt.md` - 通用版本
+- `prompt.kimi-k2.5.md` - Kimi 优化版本
+- `prompt.gpt-4o.md` - GPT-4o 优化版本
+
+## 使用方式
+
+```python
+from utils.prompt_loader import PromptLoader
+
+loader = PromptLoader("prompts")
+prompt = loader.load("category/name", model="kimi-k2.5")
+messages = prompt.render(var1="value")
+```
+
+EOF
+    
+    # 复制加载器工具到项目
+    if [ -f "$SKILLS_REGISTRY/skills/software/ai-api-integration/patterns/examples/prompt_loader.py" ]; then
+        mkdir -p "$TARGET_DIR/utils"
+        cp "$SKILLS_REGISTRY/skills/software/ai-api-integration/patterns/examples/prompt_loader.py" "$TARGET_DIR/utils/"
+        touch "$TARGET_DIR/utils/__init__.py"
+        log_info "已复制 PromptLoader 工具到 utils/"
+    fi
+    
+    log_info "已创建 prompts/ 目录结构"
+fi
+
 # 完成
 log_step "初始化完成！"
 echo ""
