@@ -153,9 +153,30 @@ STM32 开发技能，示例技能，包含：
 3. **保持精简**：SKILL.md 精简，详细内容放 references/
 4. **中文编写**：所有技能文档使用中文
 
+## 模板文件
+
+`templates/` 目录包含创建新项目的模板：
+
+| 文件 | 用途 |
+|------|------|
+| `AGENTS.md` | 项目开发指南模板 |
+| `init-project.sh` | 一键初始化新项目 |
+
+### 快速创建新项目
+
+```bash
+# 使用初始化脚本
+./templates/init-project.sh my-project --skills embedded/mcu/st-stm32,dev-workflow/git-commits
+
+# 或手动复制模板
+cp templates/AGENTS.md ~/projects/my-project/AGENTS.md
+```
+
 ## 迭代记录
 
 - 2024-01-15: 初始创建，添加 embedded 和 dev-workflow 基础技能
+- 2024-01-15: 添加 docker-best-practices 技能
+- 2024-01-15: 添加模板文件和项目初始化脚本
 
 ---
 
