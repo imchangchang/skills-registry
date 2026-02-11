@@ -95,6 +95,10 @@ echo ""
 log_step "将要移除的内容:"
 echo "  目录: $VIBE_DIR"
 
+if [ -d "$TARGET_DIR/.ai-context" ]; then
+    echo "  目录: .ai-context/"
+fi
+
 if [ -f "$TARGET_DIR/.skill-set" ]; then
     echo "  文件: .skill-set"
 fi
@@ -154,49 +158,49 @@ if [ -d "$VIBE_DIR" ]; then
     log_info "已删除: .vibe/"
 fi
 
-# 2. 删除 .skill-set
+# 2. 删除 .ai-context 目录
+if [ -d "$TARGET_DIR/.ai-context" ]; then
+    rm -rf "$TARGET_DIR/.ai-context"
+    log_info "已删除: .ai-context/"
+fi
+
+# 3. 删除 .skill-set
 if [ -f "$TARGET_DIR/.skill-set" ]; then
     rm "$TARGET_DIR/.skill-set"
     log_info "已删除: .skill-set"
 fi
 
-# 3. 删除 AGENTS.md（如果是从模板生成的）
+# 4. 删除 AGENTS.md
 if [ -f "$TARGET_DIR/AGENTS.md" ]; then
-    # 询问是否删除（用户可能已自定义）
-    if [ "$AUTO_CONFIRM" = true ]; then
-        rm "$TARGET_DIR/AGENTS.md"
-        log_info "已删除: AGENTS.md"
-    else
-        read -p "是否删除 AGENTS.md? [y/N] " -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            rm "$TARGET_DIR/AGENTS.md"
-            log_info "已删除: AGENTS.md"
-        else
-            log_info "保留: AGENTS.md"
-        fi
-    fi
+    rm "$TARGET_DIR/AGENTS.md"
+    log_info "已删除: AGENTS.md"
 fi
 
-# 4. 删除 .vibeignore
+# 5. 删除 .vibeignore
 if [ -f "$TARGET_DIR/.vibeignore" ]; then
     rm "$TARGET_DIR/.vibeignore"
     log_info "已删除: .vibeignore"
 fi
 
-# 5. 清理 .gitignore
+# 6. 清理 .gitignore
 if [ -f "$TARGET_DIR/.gitignore" ]; then
     if grep -q "Vibe Coding" "$TARGET_DIR/.gitignore" 2>/dev/null; then
         log_step "清理 .gitignore"
         
         # 创建临时文件
-        local tmp_file=$(mktemp)
+        tmp_file=$(mktemp)
         
-        # 移除 Vibe Coding 相关行
+        # 移除 Vibe Coding 相关行（兼容新旧两种格式）
         grep -v "# Vibe Coding" "$TARGET_DIR/.gitignore" | \
+        grep -v "\.ai-context/" | \
+        grep -v "\.skill-set" | \
+        grep -v "\.vibe/" | \
+        grep -v "AGENTS\.md" | \
         grep -v "\.vibe/skills/" | \
         grep -v "\.vibe/backups/" | \
-        grep -v "\.skill-updates-todo\.md" > "$tmp_file" || true
+        grep -v "\.skill-updates-todo\.md" | \
+        grep -v "\.ai-context/\*" | \
+        grep -v "!\.ai-context/\.gitkeep" > "$tmp_file" || true
         
         # 检查是否有变化
         if ! diff -q "$TARGET_DIR/.gitignore" "$tmp_file" > /dev/null 2>&1; then

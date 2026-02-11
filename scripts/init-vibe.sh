@@ -111,7 +111,6 @@ mkdir -p "$VIBE_DIR"/{skills,scripts,backups}
 # 创建 .ai-context 目录（用于会话持久化）
 log_step "创建 AI 上下文目录"
 mkdir -p "$TARGET_DIR/.ai-context"
-touch "$TARGET_DIR/.ai-context/.gitkeep"
 
 # 1. 创建 .skill-set
 log_step "创建技能声明文件"
@@ -270,14 +269,11 @@ else
 fi
 
 # 创建或更新忽略文件
-VIBE_IGNORE_PATTERNS="# Vibe Coding (auto-generated)
-.vibe/skills/
-.vibe/backups/
-.skill-updates-todo.md
-
-# AI 会话上下文（保留目录，忽略内容）
-.ai-context/*
-!.ai-context/.gitkeep
+VIBE_IGNORE_PATTERNS="# Vibe Coding (完全忽略，不纳入版本控制)
+.ai-context/
+.skill-set
+.vibe/
+AGENTS.md
 "
 
 if [ -f "$GITIGNORE" ]; then
@@ -359,9 +355,9 @@ echo "  4. 开始开发！"
 echo ""
 echo "注意:"
 if [ "$IS_GIT_REPO" = true ]; then
-    echo "  - .vibe/skills/ 已添加到 .gitignore（不会提交到版本控制）"
+    echo "  - Vibe Coding 相关文件已添加到 .gitignore（不会提交到版本控制）"
 else
     echo "  - 当前不是 git 仓库，如需要请自行初始化"
     echo "  - .vibeignore 已创建，可作为 .gitignore 参考"
 fi
-echo "  - 所有 Vibe Coding 文件都在 .vibe/ 目录，保持工作区整洁"
+echo "  - 只有 .gitignore 变更会被 Git 识别，其他 Vibe Coding 文件完全忽略"
