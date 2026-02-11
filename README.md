@@ -32,10 +32,84 @@ skills/
     └── ros/
 
 scripts/
+├── install.sh            # 安装技能库到本地
+├── init-vibe.sh          # 在任意目录初始化 Vibe Coding
+├── add-skill.sh          # 为项目添加技能
+├── update-skills.sh      # 更新技能链接
+├── vibe-status.sh        # 查看项目 Vibe 状态
 └── new-skill.sh          # 创建新技能脚本
 ```
 
 ## 快速开始
+
+### 安装技能库
+
+```bash
+# 1. 克隆技能库
+git clone <your-repo-url> ~/skills-registry
+cd ~/skills-registry
+
+# 2. 安装到本地（创建 vibe 命令）
+./scripts/install.sh
+
+# 3. 重新加载 shell 配置
+source ~/.bashrc  # 或 ~/.zshrc
+```
+
+### 在项目中使用（推荐）
+
+使用 `vibe` 命令快速初始化：
+
+```bash
+# 进入任意项目目录
+cd ~/projects/my-project
+
+# 初始化 Vibe Coding
+vibe init
+
+# 或指定初始技能
+vibe init -s embedded/mcu/st-stm32,dev-workflow/git-commits
+```
+
+**生成的文件结构**：
+```
+my-project/
+├── .vibe/                # Vibe Coding 配置（自动生成）
+│   ├── skills/           # 链接的技能（符号链接）
+│   ├── scripts/          # 辅助脚本
+│   └── backups/          # 备份文件
+├── .skill-set            # 技能声明
+├── AGENTS.md             # AI 开发指南
+└── .gitignore            # 已配置忽略 .vibe/
+```
+
+**非侵入式设计**：
+- 所有 Vibe 文件都在 `.vibe/` 目录
+- 自动配置 `.gitignore`，不会污染版本控制
+- 使用符号链接引用技能库，节省空间
+
+### 管理技能
+
+```bash
+# 查看项目状态
+vibe status
+
+# 添加技能
+vibe skill embedded/rtos/freertos
+
+# 更新所有技能链接
+vibe update
+```
+
+### 手动方式（不使用 vibe 命令）
+
+```bash
+# 直接运行初始化脚本
+~/skills-registry/scripts/init-vibe.sh
+
+# 添加技能
+~/skills-registry/scripts/add-skill.sh embedded/mcu/gd32
+```
 
 ### 创建新技能
 
@@ -44,25 +118,7 @@ scripts/
 
 # 示例
 ./scripts/new-skill.sh embedded/mcu/gd32
-./scripts/new-skill.sh software/docker
-```
-
-### 在项目中使用
-
-1. 在项目根目录创建 `.skill-set` 文件：
-```
-embedded/mcu/st-stm32
-embedded/rtos/freertos
-dev-workflow/git-commits
-dev-workflow/quality-gates
-```
-
-2. 运行链接脚本：
-```bash
-./scripts/link-skills.sh
-```
-
-3. 技能将被链接到 `./skills/` 目录
+./scripts/new-skill.sh software/ros2
 
 ## Skill 格式规范
 
@@ -177,6 +233,7 @@ cp templates/AGENTS.md ~/projects/my-project/AGENTS.md
 - 2024-01-15: 初始创建，添加 embedded 和 dev-workflow 基础技能
 - 2024-01-15: 添加 docker-best-practices 技能
 - 2024-01-15: 添加模板文件和项目初始化脚本
+- 2024-01-15: 添加安装脚本 `install.sh` 和 `vibe` 命令工具
 
 ---
 
