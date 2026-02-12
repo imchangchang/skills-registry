@@ -562,8 +562,25 @@ clang-format --dry-run --Werror src/*.c
 |-------|------|
 | dev-workflow/multi-agent-safety | Git 安全规则、推送确认流程 |
 | vibe-coding/session-management | 会话管理规范、.ai-context 使用 |
+| vibe-coding/skill-testing | Skill 测试验证规范 |
+| vibe-coding/skill-evolution | Skill 演化沉淀指南 |
 | dev-workflow/git-commits | 精确提交规范、commit message 格式 |
 | dev-workflow/quality-gates | 质量门禁模板、检查脚本 |
+
+---
+
+## Skill 开发流程（简要）
+
+**创建新 Skill 时**：
+
+1. **规划**：确定适用场景和核心内容
+2. **编写**：按照 SKILL.md 模板编写
+3. **测试**：使用 `vibe-coding/skill-testing` 在真实项目中验证
+4. **演化**：使用 `vibe-coding/skill-evolution` 沉淀改进
+
+**关键原则**：
+- 新 Skill 必须通过测试才能发布
+- 使用通配符 `vibe-coding/*` 引入核心技能
 
 ---
 

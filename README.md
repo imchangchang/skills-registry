@@ -17,7 +17,8 @@ skills/
 │   ├── core/             # 全局约定（三种约定层次）
 │   ├── multi-agent-safety/ # 多代理安全规则
 │   ├── session-management/ # 会话管理规范
-│   └── skill-evolution/  # Skill 演化工具（从项目提炼知识）
+│   ├── skill-evolution/  # Skill 演化工具（从项目提炼知识）
+│   └── skill-testing/    # Skill 测试验证规范
 │
 ├── design-patterns/       # 通用设计模式
 │   └── pipeline-architecture/  # 渐进式管道架构
@@ -208,11 +209,16 @@ Vibe Coding 全局约定，包含：
 - 上下文恢复流程
 
 ### vibe-coding/skill-evolution
-Skill 演化与提炼工具，包含：
-- extract-skill.sh: 从项目提取 Skill 更新
-- merge-skill.sh: 将导入包融合到 Skill 仓库
-- 导入包格式规范
-- 知识从项目到 Skill 仓库的完整工作流
+Skill 演化与提炼指南，定义从项目实践中提取知识的完整流程，包含：
+- 三种沉淀方式：直接编辑、项目提取、新建 Skill
+- 场景决策树：根据情况选择合适的方式
+- 与 skill-creator 的分工协作
+
+### vibe-coding/skill-testing
+Skill 测试验证规范，确保 Skill 质量的重要环节，包含：
+- Skill 测试三步法：创建项目、对话测试、修正验证
+- 测试检查清单：清晰度、可执行性、一致性、完整性
+- 冲突检查：与其他 Skill 的兼容性验证
 
 ### design-patterns/pipeline-architecture
 渐进式管道架构，通用设计思想，包含：
@@ -266,6 +272,7 @@ cp templates/AGENTS.md ~/projects/my-project/AGENTS.md
 
 ## 迭代记录
 
+- 2026-02-12: 添加 skill-testing 测试验证规范，确保 Skill 质量闭环
 - 2026-02-12: 添加 skill-evolution 工具 skill，支持从项目实践中自动提炼知识
 - 2026-02-12: 添加 pipeline-architecture 设计模式 skill，从 video2markdown 项目抽象出通用架构思想
 - 2026-02-11: 初始创建，添加 embedded 和 dev-workflow 基础技能

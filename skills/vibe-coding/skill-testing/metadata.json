@@ -1,0 +1,13 @@
+{
+  "name": "skill-testing",
+  "description": "Skill 测试验证规范。定义如何在真实项目中测试 Skill，确保 Skill 质量、发现冲突和模糊点。",
+  "type": "global-convention",
+  "created": "2026-02-12",
+  "status": "stable",
+  "tags": [
+    "vibe-coding",
+    "testing",
+    "validation",
+    "quality"
+  ]
+}
