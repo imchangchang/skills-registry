@@ -81,6 +81,19 @@ cat > "$FULL_PATH/references/quick-ref.md" << EOF
 TODO: 添加一页纸速查内容
 EOF
 
+# 创建 metadata.json
+CATEGORY=$(dirname "$SKILL_PATH" | tr '/' '-')
+cat > "$FULL_PATH/metadata.json" << EOF
+{
+  "name": "${SKILL_NAME}",
+  "description": "TODO: 添加技能描述",
+  "type": "${CATEGORY}",
+  "created": "$(date +%Y-%m-%d)",
+  "status": "draft",
+  "tags": []
+}
+EOF
+
 echo "[OK] Created skill: $FULL_PATH"
 echo ""
 echo "Next steps:"

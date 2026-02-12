@@ -1,8 +1,0 @@
-{
-  "name": "bash-scripting",
-  "description": "Bash 脚本编写最佳实践。涵盖 set -e 陷阱、数组使用、文件名空格处理、错误处理等实用技巧。",
-  "type": "dev-workflow",
-  "created": "2026-02-12",
-  "status": "stable",
-  "tags": ["bash", "shell", "scripting", "devops"]
-}

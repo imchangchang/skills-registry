@@ -1,0 +1,8 @@
+{
+  "name": "git-commits",
+  "description": "Git 提交规范和分支管理",
+  "type": "workflow",
+  "created": "2026-02-12",
+  "status": "stable",
+  "tags": ["git", "version-control", "workflow"]
+}

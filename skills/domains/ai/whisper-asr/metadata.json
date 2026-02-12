@@ -1,0 +1,8 @@
+{
+  "name": "whisper-asr",
+  "description": "Whisper 语音识别最佳实践",
+  "type": "domains",
+  "created": "2026-02-12",
+  "status": "stable",
+  "tags": ["whisper", "asr", "speech-to-text", "audio"]
+}

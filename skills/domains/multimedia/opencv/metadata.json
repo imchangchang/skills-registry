@@ -1,0 +1,8 @@
+{
+  "name": "opencv-python",
+  "description": "OpenCV Python 计算机视觉编程要点",
+  "type": "domains",
+  "created": "2026-02-12",
+  "status": "stable",
+  "tags": ["opencv", "computer-vision", "image-processing", "video"]
+}

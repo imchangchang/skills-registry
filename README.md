@@ -13,36 +13,40 @@
 
 ```
 skills/
-├── vibe-coding/           # Vibe Coding 核心方法论
+├── vibe-coding/          # Vibe Coding 核心方法论
 │   ├── core/             # 全局约定（三种约定层次）
 │   ├── multi-agent-safety/ # 多代理安全规则
 │   ├── session-management/ # 会话管理规范
-│   ├── skill-evolution/  # Skill 演化工具（从项目提炼知识）
-│   └── skill-testing/    # Skill 测试验证规范
+│   ├── skill-evolution/  # Skill 演化流程
+│   └── skill-testing/    # Skill 测试规范
 │
-├── design-patterns/       # 通用设计模式
-│   └── pipeline-architecture/  # 渐进式管道架构
+├── languages/            # 编程语言
+│   ├── python/
+│   │   ├── core/         # Python 核心实践
+│   │   ├── cli/          # Python CLI 开发
+│   │   └── pipeline/     # Python 管道编程
+│   └── bash/             # Bash 脚本编写
 │
-├── dev-workflow/          # 开发工作流技能
-│   ├── git-commits/      # Git 提交规范
-│   ├── quality-gates/    # 质量门禁
-│   ├── pr-workflow/      # PR 工作流
-│   └── bash-scripting/   # Bash 脚本编写技巧
+├── domains/              # 领域技能
+│   ├── embedded/         # 嵌入式开发
+│   │   ├── common/       # 通用概念
+│   │   ├── mcu/stm32/    # STM32 开发
+│   │   └── rtos/freertos/ # FreeRTOS
+│   ├── ai/               # AI 相关
+│   │   ├── api-integration/  # AI API 集成
+│   │   ├── prompt-engineering/ # Prompt 工程
+│   │   └── whisper-asr/  # Whisper 语音识别
+│   └── multimedia/       # 多媒体处理
+│       ├── video-processing/
+│       └── opencv/
 │
-├── embedded/              # 嵌入式开发技能
-│   ├── common/           # 通用概念
-│   │   └── c-embedded/   # 嵌入式 C 开发规范
-│   ├── mcu/              # MCU 相关
-│   │   └── st-stm32/     # STM32 具体实现（含示例）
-│   └── rtos/             # RTOS 相关
-│       └── freertos/     # FreeRTOS
+├── patterns/             # 架构模式
+│   └── pipeline/architecture/  # 管道架构模式
 │
-└── software/              # 软件开发技能
-    ├── ai-api-integration/       # AI API 集成（OpenAI/Kimi）
-    ├── docker-best-practices/
-    ├── python-cli/
-    ├── python-dev/
-    └── video-processing/         # 视频处理通用技能
+└── workflow/             # 开发工作流
+    ├── git/              # Git 提交规范
+    ├── quality-gates/    # 质量门禁
+    └── docker/           # Docker 基础实践
 
 scripts/
 ├── install.sh            # 安装技能库到本地
@@ -81,7 +85,7 @@ cd ~/projects/my-project
 vibe init
 
 # 或指定初始技能
-vibe init -s embedded/mcu/st-stm32,dev-workflow/git-commits
+vibe init -s domains/embedded/mcu/stm32,workflow/git
 ```
 
 **生成的文件结构**：
@@ -108,7 +112,7 @@ my-project/
 vibe status
 
 # 添加技能
-vibe skill embedded/rtos/freertos
+vibe skill domains/embedded/rtos/freertos
 
 # 更新所有技能链接
 vibe update
@@ -121,7 +125,7 @@ vibe update
 ~/skills-registry/scripts/init-vibe.sh
 
 # 添加技能
-~/skills-registry/scripts/add-skill.sh embedded/mcu/gd32
+~/skills-registry/scripts/add-skill.sh domains/embedded/mcu/gd32
 ```
 
 ### 创建新技能
@@ -130,8 +134,8 @@ vibe update
 ./scripts/new-skill.sh <category>/<skill-name>
 
 # 示例
-./scripts/new-skill.sh embedded/mcu/gd32
-./scripts/new-skill.sh software/ros2
+./scripts/new-skill.sh domains/embedded/mcu/gd32
+./scripts/new-skill.sh languages/rust/core
 ```
 
 ## Skill 格式规范
@@ -142,6 +146,7 @@ vibe update
 skill-name/
 ├── SKILL.md              # 核心指导（<500 行，中文）
 ├── HISTORY.md            # 变更记录
+├── metadata.json         # 元数据
 ├── patterns/             # 代码模式
 │   ├── templates/        # 可直接使用的模板
 │   └── examples/         # 示例代码
@@ -183,9 +188,6 @@ status: draft  # draft → stable
 **原因**：...
 **解决**：...
 
-## 参考资料
-- references/quick-ref.md - 速查表
-
 ## 迭代记录
 - 2026-02-11: 初始创建
 ```
@@ -194,9 +196,8 @@ status: draft  # draft → stable
 
 ### vibe-coding/core
 Vibe Coding 全局约定，包含：
-- 三种核心理念（约定优于配置、渐进式披露、学习中演进）
 - 三种约定层次（全局/能力/项目）
-- 能力层与交付层双层结构
+- 双层架构（能力层与交付层）
 - 主动学习与实践沉淀两条路径
 
 ### vibe-coding/multi-agent-safety
@@ -212,47 +213,34 @@ Vibe Coding 全局约定，包含：
 - 上下文恢复流程
 
 ### vibe-coding/skill-evolution
-Skill 演化与提炼指南，定义从项目实践中提取知识的完整流程，包含：
+Skill 演化指南，包含：
+- [强制] NEVER delete 原则：从项目中提取的 Skill 一律保留
 - 三种沉淀方式：直接编辑、项目提取、新建 Skill
-- 场景决策树：根据情况选择合适的方式
-- 与 skill-creator 的分工协作
+- 场景决策树
 
 ### vibe-coding/skill-testing
-Skill 测试验证规范，确保 Skill 质量的重要环节，包含：
-- Skill 测试三步法：创建项目、对话测试、修正验证
-- 测试检查清单：清晰度、可执行性、一致性、完整性
-- 冲突检查：与其他 Skill 的兼容性验证
+Skill 测试验证规范，包含：
+- Skill 测试三步法
+- 测试检查清单
+- 冲突检查
 
-### design-patterns/pipeline-architecture
-渐进式管道架构，通用设计思想，包含：
-- 三大哲学原则：数据流即程序、渐进式复杂度、可观测性即架构
-- 五大设计原则：Asset-First、Explicit Contract、Incremental by Default、Isolation、Human-First DX
-- 代码模式：三阶段标准化、分层缓存、配置-代码分离
-- 适用场景：数据处理、AIGC 流程、构建系统、科学计算
+### patterns/pipeline/architecture
+管道架构模式，通用设计思想
 
-### dev-workflow/git-commits
-Git 提交规范，包含：
-- Commit message 格式
-- 精确提交流程
+### languages/python/core
+Python 核心开发实践
 
-### dev-workflow/quality-gates
-质量门禁，包含：
-- C 项目检查（编译、静态分析）
-- Python 项目检查（格式、类型、测试）
-- 可扩展的 gate.sh 脚本
+### languages/bash
+Bash 脚本编写规范
 
-### dev-workflow/bash-scripting
-Bash 脚本编写指南，包含：
-- set -e 陷阱和解决方案
-- 数组使用技巧
-- 文件名空格处理
-- 错误处理最佳实践
+### domains/embedded/mcu/stm32
+STM32 开发技能
 
-### embedded/mcu/st-stm32
-STM32 开发技能，示例技能，包含：
-- GPIO 初始化模板
-- 中断处理模板
-- 常见问题
+### workflow/git
+Git 提交规范
+
+### workflow/quality-gates
+代码质量门禁检查
 
 ## 使用原则
 
@@ -260,6 +248,7 @@ STM32 开发技能，示例技能，包含：
 2. **持续迭代**：开发中发现问题立即更新技能
 3. **保持精简**：SKILL.md 精简，详细内容放 references/
 4. **中文编写**：所有技能文档使用中文
+5. **项目经验全保留**：从项目实践中提取的技能一律保留，分类存放
 
 ## 模板文件
 
@@ -274,7 +263,7 @@ STM32 开发技能，示例技能，包含：
 
 ```bash
 # 使用初始化脚本
-./templates/init-project.sh my-project --skills embedded/mcu/st-stm32,dev-workflow/git-commits
+./templates/init-project.sh my-project --skills domains/embedded/mcu/stm32,workflow/git
 
 # 或手动复制模板
 cp templates/AGENTS.md ~/projects/my-project/AGENTS.md
@@ -282,13 +271,13 @@ cp templates/AGENTS.md ~/projects/my-project/AGENTS.md
 
 ## 迭代记录
 
-- 2026-02-12: 添加 skill-testing 测试验证规范，确保 Skill 质量闭环
-- 2026-02-12: 添加 skill-evolution 工具 skill，支持从项目实践中自动提炼知识
-- 2026-02-12: 添加 pipeline-architecture 设计模式 skill，从 video2markdown 项目抽象出通用架构思想
-- 2026-02-11: 初始创建，添加 embedded 和 dev-workflow 基础技能
-- 2026-02-11: 添加 docker-best-practices 技能
-- 2026-02-11: 添加模板文件和项目初始化脚本
-- 2026-02-11: 添加安装脚本 `install.sh` 和 `vibe` 命令工具
+- 2026-02-12: 重构目录结构（languages/, domains/, patterns/, workflow/）
+- 2026-02-12: 恢复并创建 project-specific 技能（prompt-engineering, whisper-asr, opencv）
+- 2026-02-12: 添加 [强制] NEVER delete 原则：项目经验技能一律保留
+- 2026-02-12: 添加 skill-testing 测试验证规范
+- 2026-02-12: 添加 skill-evolution Skill 演化流程
+- 2026-02-12: 添加 pipeline-architecture 架构模式
+- 2026-02-11: 初始创建
 
 ---
 

@@ -1,0 +1,8 @@
+{
+  "name": "bash-scripting",
+  "description": "Bash 脚本编写规范",
+  "type": "languages",
+  "created": "2026-02-12",
+  "status": "stable",
+  "tags": ["bash", "shell", "scripting", "linux"]
+}

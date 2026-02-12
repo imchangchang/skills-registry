@@ -1,0 +1,8 @@
+{
+  "name": "pipeline-architecture",
+  "description": "管道/流水线架构模式",
+  "type": "patterns",
+  "created": "2026-02-12",
+  "status": "stable",
+  "tags": ["pipeline", "architecture", "pattern", "data-processing"]
+}

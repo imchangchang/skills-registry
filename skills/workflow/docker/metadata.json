@@ -1,0 +1,8 @@
+{
+  "name": "docker-basics",
+  "description": "Docker 容器化基础实践",
+  "type": "workflow",
+  "created": "2026-02-12",
+  "status": "stable",
+  "tags": ["docker", "container", "devops", "deployment"]
+}

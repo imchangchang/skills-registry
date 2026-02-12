@@ -1,0 +1,8 @@
+{
+  "name": "python-pipeline",
+  "description": "Python 多阶段数据处理流水线设计",
+  "type": "languages",
+  "created": "2026-02-12",
+  "status": "stable",
+  "tags": ["python", "pipeline", "data-processing", "workflow"]
+}

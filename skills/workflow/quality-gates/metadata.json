@@ -1,0 +1,8 @@
+{
+  "name": "quality-gates",
+  "description": "代码质量门禁检查",
+  "type": "workflow",
+  "created": "2026-02-12",
+  "status": "stable",
+  "tags": ["quality", "testing", "review", "checklist"]
+}
