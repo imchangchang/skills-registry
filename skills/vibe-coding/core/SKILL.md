@@ -86,6 +86,83 @@ flowchart TB
 
 ---
 
+## 核心概念
+
+### 中央技能仓库（Central Skills Registry）
+
+**定义**：存储所有 Skill 的中央仓库
+
+**位置**：`~/skills-registry/`（或其他统一位置）
+
+**结构**：
+```
+skills-registry/
+├── skills/               # 所有 Skill
+│   ├── vibe-coding/     # Vibe Coding 核心
+│   ├── dev-workflow/    # 开发工作流
+│   ├── embedded/        # 嵌入式
+│   └── software/        # 软件
+├── templates/           # 项目模板
+└── scripts/             # 管理脚本
+```
+
+**用途**：
+- 所有 Skill 的权威来源
+- 版本控制（Git 管理）
+- 多项目共享
+
+**谁操作**：
+- 维护 Skill 的开发者
+- 沉淀新 Skill 的贡献者
+- **不在项目开发时直接修改**
+
+### 项目仓库（Project Repository）
+
+**定义**：具体的开发项目的仓库
+
+**位置**：`~/projects/my-project/`
+
+**结构**：
+```
+my-project/
+├── src/                 # 项目源代码
+├── .vibe/              # Vibe Coding 配置
+│   └── skills/         # 链接的 Skill（只读）
+├── .skill-set          # 引用的 Skill 声明
+├── AGENTS.md           # 项目开发指南
+└── .ai-context/        # AI 会话记录
+```
+
+**用途**：
+- 存储项目代码
+- 记录项目特定的上下文
+- 生成 Skill 沉淀产物（skill-export/）
+
+**谁操作**：
+- 项目开发者
+- AI 助手（遵循项目 AGENTS.md）
+
+### 双仓库关系
+
+```
+中央技能仓库                    项目仓库
+(skills-registry)               (my-project)
+       │                              │
+       │  提供 Skill 定义              │  使用 Skill
+       │ ───────────────────────────► │
+       │                              │
+       │  接收沉淀产物                 │  生成沉淀产物
+       │ ◄─────────────────────────── │
+       │   (skill-export/)            │
+```
+
+**关键原则**：
+- **单向依赖**：项目依赖中央仓库的 Skill，中央仓库不依赖项目
+- **只读使用**：项目通过 `.vibe/skills/` 链接只读使用 Skill
+- **产物沉淀**：项目生成沉淀产物，复制到中央仓库后应用
+
+---
+
 ## 三种约定层次
 
 ### 全局约定（Global Convention）

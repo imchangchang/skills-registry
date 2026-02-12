@@ -2,6 +2,25 @@
 
 本项目使用 Vibe Coding（AI 协作开发）方法论。
 
+## 核心概念
+
+**项目仓库**（本仓库）：存储项目代码和特定上下文
+- 项目源代码、配置文件
+- `.vibe/skills/` - 链接的 Skill（只读，来自中央仓库）
+- `.ai-context/` - AI 会话记录
+
+**中央技能仓库**（`~/skills-registry`）：存储所有 Skill 定义
+- 所有 Skill 的权威来源
+- 通过 `.skill-set` 声明引用
+- 项目不直接修改中央仓库
+
+**Skill**：AI 协作开发的约定和规范
+- 存储在中央仓库的 `skills/<category>/<name>/`
+- 项目通过 `.vibe/skills/<category>/<name>` 链接使用
+- 包含 SKILL.md（核心约定）、patterns/（模板）、references/（参考）
+
+**更多概念**：参考 `vibe-coding/core` skill 的"核心概念"章节
+
 ## AI 助手工作约定
 
 ### 0. 多代理安全规则（强制执行）
