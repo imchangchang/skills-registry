@@ -1,0 +1,18 @@
+{
+  "name": "session-management",
+  "description": "Vibe Coding 会话管理规范，包含 session 记录保存、上下文恢复、.ai-context 目录使用规范。适用于所有 Vibe Coding 项目的 AI 协作开发。",
+  "type": "global-convention",
+  "created": "2026-02-11",
+  "status": "stable",
+  "tags": [
+    "vibe-coding",
+    "session",
+    "context",
+    "ai-context",
+    "continuity"
+  ],
+  "related_skills": [
+    "vibe-coding/core",
+    "vibe-coding/multi-agent-safety"
+  ]
+}

@@ -18,6 +18,9 @@ skills/
 │   ├── multi-agent-safety/ # 多代理安全规则
 │   └── session-management/ # 会话管理规范
 │
+├── design-patterns/       # 通用设计模式
+│   └── pipeline-architecture/  # 渐进式管道架构
+│
 ├── dev-workflow/          # 开发工作流技能
 │   ├── git-commits/      # Git 提交规范
 │   ├── quality-gates/    # 质量门禁
@@ -33,7 +36,8 @@ skills/
 │
 └── software/              # 软件开发技能
     ├── docker-best-practices/
-    └── python-cli/
+    ├── python-cli/
+    └── python-dev/
 
 scripts/
 ├── install.sh            # 安装技能库到本地
@@ -202,6 +206,13 @@ Vibe Coding 全局约定，包含：
 - Session 记录格式
 - 上下文恢复流程
 
+### design-patterns/pipeline-architecture
+渐进式管道架构，通用设计思想，包含：
+- 三大哲学原则：数据流即程序、渐进式复杂度、可观测性即架构
+- 五大设计原则：Asset-First、Explicit Contract、Incremental by Default、Isolation、Human-First DX
+- 代码模式：三阶段标准化、分层缓存、配置-代码分离
+- 适用场景：数据处理、AIGC 流程、构建系统、科学计算
+
 ### dev-workflow/git-commits
 Git 提交规范，包含：
 - Commit message 格式
@@ -247,6 +258,7 @@ cp templates/AGENTS.md ~/projects/my-project/AGENTS.md
 
 ## 迭代记录
 
+- 2026-02-12: 添加 pipeline-architecture 设计模式 skill，从 video2markdown 项目抽象出通用架构思想
 - 2026-02-11: 初始创建，添加 embedded 和 dev-workflow 基础技能
 - 2026-02-11: 添加 docker-best-practices 技能
 - 2026-02-11: 添加模板文件和项目初始化脚本

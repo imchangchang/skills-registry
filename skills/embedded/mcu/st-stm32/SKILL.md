@@ -66,13 +66,19 @@ void HAL_GPIO_EXTI_IRQHandler(uint16_t GPIO_Pin) {
 ## 代码模式
 
 ### 模式 1：定时器 PWM 输出
-见 patterns/templates/timer-pwm.c
+见 patterns/templates/timer-pwm.c（TODO）
 
 ### 模式 2：DMA 传输
-见 patterns/templates/dma-transfer.c
+见 patterns/templates/dma-transfer.c（TODO）
 
 ### 模式 3：低功耗模式进入
-见 patterns/templates/low-power.c
+见 patterns/templates/low-power.c（TODO）
+
+### 模式 4：GPIO 初始化
+见 patterns/templates/gpio-init.c
+
+### 模式 5：外部中断 EXTI
+见 patterns/templates/exti-interrupt.c
 
 ## 常见问题
 
@@ -95,7 +101,7 @@ void HAL_GPIO_EXTI_IRQHandler(uint16_t GPIO_Pin) {
 
 - **速查表**：references/quick-ref.md - 寄存器地址、常用 API
 - **时钟配置**：references/clock-configuration.md - 详细时钟树说明
-- **系列差异**：references/series-differences.md - F4 vs F7 vs H7
+- **系列差异**：references/series-differences.md - F4 vs F7 vs H7 差异说明
 
 ## 迭代记录
 - 2026-02-11: 初始创建，包含 GPIO、中断基础

@@ -1,0 +1,18 @@
+{
+  "name": "freertos",
+  "description": "FreeRTOS 实时操作系统使用规范，包含任务管理、队列、信号量、内存配置等最佳实践。",
+  "type": "embedded",
+  "created": "2026-02-11",
+  "status": "draft",
+  "tags": [
+    "freertos",
+    "rtos",
+    "embedded",
+    "real-time",
+    "task-management"
+  ],
+  "related_skills": [
+    "embedded/common/c-embedded",
+    "embedded/mcu/st-stm32"
+  ]
+}

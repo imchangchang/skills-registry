@@ -1,0 +1,17 @@
+{
+  "name": "pr-workflow",
+  "description": "Pull Request 工作流规范，包含分支策略、代码审查清单、合并流程。",
+  "type": "dev-workflow",
+  "created": "2026-02-11",
+  "status": "draft",
+  "tags": [
+    "git",
+    "pull-request",
+    "code-review",
+    "workflow"
+  ],
+  "related_skills": [
+    "dev-workflow/git-commits",
+    "dev-workflow/quality-gates"
+  ]
+}

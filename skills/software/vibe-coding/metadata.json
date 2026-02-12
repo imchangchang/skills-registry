@@ -1,8 +1,0 @@
-{
-  "name": "vibe-coding",
-  "description": "Vibe Coding 方法论 - AI 助手与人类协作开发的核心原则，强调约定优先于实现、一步到位、透明承认错误",
-  "version": "1.0.0",
-  "author": "AI Assistant",
-  "tags": ["methodology", "workflow", "ai-collaboration", "best-practices"],
-  "dependencies": []
-}

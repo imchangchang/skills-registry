@@ -1,0 +1,17 @@
+{
+  "name": "git-commits",
+  "description": "Git 提交规范与工具使用。包含精确提交、commit message 规范、多代理安全规则。",
+  "type": "dev-workflow",
+  "created": "2024-01-15",
+  "status": "stable",
+  "tags": [
+    "git",
+    "commit",
+    "workflow",
+    "version-control"
+  ],
+  "related_skills": [
+    "vibe-coding/multi-agent-safety",
+    "dev-workflow/pr-workflow"
+  ]
+}

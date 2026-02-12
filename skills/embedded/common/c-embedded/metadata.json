@@ -1,0 +1,17 @@
+{
+  "name": "c-embedded",
+  "description": "嵌入式 C 开发通用规范，包含内存管理、中断处理、寄存器操作等最佳实践。适用于所有嵌入式 C 项目。",
+  "type": "embedded",
+  "created": "2026-02-11",
+  "status": "draft",
+  "tags": [
+    "embedded",
+    "c",
+    "microcontroller",
+    "bare-metal"
+  ],
+  "related_skills": [
+    "embedded/mcu/st-stm32",
+    "embedded/rtos/freertos"
+  ]
+}

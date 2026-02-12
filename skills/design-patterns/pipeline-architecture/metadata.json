@@ -1,0 +1,27 @@
+{
+  "name": "pipeline-architecture",
+  "description": "渐进式管道架构 - 构建复杂数据处理工作流的元设计思想",
+  "type": "design-pattern",
+  "created": "2025-02-12",
+  "status": "stable",
+  "tags": [
+    "architecture",
+    "data-flow",
+    "workflow",
+    "design-pattern",
+    "etl",
+    "pipeline"
+  ],
+  "related_skills": [
+    "software/python-cli",
+    "software/python-dev",
+    "software/video-processing"
+  ],
+  "concepts": [
+    "Asset-First",
+    "Explicit Contract",
+    "Incremental by Default",
+    "Data Flow as Code",
+    "Observability as Architecture"
+  ]
+}

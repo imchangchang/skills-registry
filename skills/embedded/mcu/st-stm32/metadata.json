@@ -1,0 +1,19 @@
+{
+  "name": "st-stm32",
+  "description": "STM32 MCU development using HAL/LL drivers. Covers STM32F4/F7/H7 series clock, GPIO, interrupt, DMA, and timer configuration.",
+  "type": "embedded",
+  "created": "2026-02-11",
+  "status": "stable",
+  "tags": [
+    "stm32",
+    "mcu",
+    "hal",
+    "embedded",
+    "arm"
+  ],
+  "related_skills": [
+    "embedded/common/c-embedded",
+    "embedded/rtos/freertos"
+  ],
+  "mcu_series": ["F4", "F7", "H7"]
+}
