@@ -259,26 +259,48 @@ git push -u origin feature/xxx
 
 ## Skill 迭代
 
-开发中发现 skill 问题或改进点：
+开发中发现 Skill 问题或改进点：
 
-1. **快速记录**：添加到 `.skill-updates-todo.md`
+**引用 `vibe-coding/skill-evolution` skill**
+
+### 快速决策
+
+```
+发现需要更新 Skill？
+    │
+    ├── 已有 Skill，简单修正？
+    │       └── 直接编辑 skill 文件
+    │
+    ├── 从项目提炼新经验？
+    │       └── 1. 记录在 .vibe/.skill-updates-todo.md
+    │           2. 项目结束后提取到 skills-registry
+    │
+    └── 创建全新 Skill？
+            └── 参考 skill-evolution 的新建流程
+```
+
+### 方式 1：直接编辑（快速修复）
+
+```bash
+cd ~/skills-registry
+vim skills/<category>/<skill-name>/SKILL.md
+git commit -m "fix(<skill-name>): 描述"
+```
+
+### 方式 2：项目提取（系统沉淀）
+
+1. **项目内记录**：添加到 `.vibe/.skill-updates-todo.md`
    ```markdown
-   - [ ] stm32-gpio: 补充 H7 系列 PWR 配置
+   - [ ] stm32: 补充 H7 DMA 双缓冲配置
+     发现时间：2026-02-12
+     问题描述：...
    ```
 
-2. **直接修改**：编辑 `~/skills-registry/` 中的对应 skill
-   ```bash
-   cd ~/skills-registry
-   vim skills/embedded/mcu/st-stm32/SKILL.md
-   ```
+2. **结束后提取**：编辑 `~/skills-registry` 中的 skill
 
-3. **提交变更**：
-   ```bash
-   cd ~/skills-registry
-   git add .
-   git commit -m "fix(stm32): 补充 H7 PWR 配置说明"
-   git push
-   ```
+### 方式 3：新建 Skill
+
+参考 `vibe-coding/skill-evolution` skill 中的"方式 3：新建 Skill"章节。
 
 ## 项目特定知识
 
