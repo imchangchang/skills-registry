@@ -5,21 +5,46 @@ Vibe Coding 的完整实施流程，从知识收集到实际开发。
 ## 总体流程
 
 ```mermaid
-graph TB
-    subgraph 知识层
-        A[收集资料] --> B[数据清洗]
-        B --> C[提取知识]
-        C --> D[创建 Skill]
+flowchart TB
+    subgraph Capability["能力层（知识积累）"]
+        %% 路径1：主动学习
+        K1[收集资料<br/>PDF/视频/文档] --> L[知识库]
+        L -->|数据清洗| S[结构化知识]
+        
+        %% 路径2：实践沉淀
+        K2[实践经验] -->|无需清洗| M[SKILLS]
+        
+        %% 合并
+        S --> M
     end
     
-    subgraph 项目层
-        E[初始化项目] --> F[引用 Skill]
-        F --> G[AI 协作开发]
-        G --> H[迭代优化 Skill]
+    subgraph Delivery["交付层（项目迭代）"]
+        A[原始需求] --> B[人与AI讨论方案]
+        B --> C[方案]
+        C --> D[AI实现]
+        D --> D1[质量门控]
+        D1 --> E[人验收]
+        E --> F{验收通过?}
+        F -->|是| G[结束]
+        F -->|否| H{原因?}
+        H -->|迭代需求| A
+        H -->|优化方案| C
     end
     
-    D -.->|Skill 库| E
-    H -.->|反馈| D
+    %% SKILL引用到交付层各阶段
+    M -.->|迭代SKILL| B
+    M -.->|引用| C
+    M -.->|引用| D
+    
+    %% 反馈回路
+    B -.->|迭代SKILL| K2
+    C -.->|迭代SKILL| K2
+    E -.->|迭代SKILL| K2
+    
+    style Capability fill:#e1f5e1,stroke:#4caf50
+    style Delivery fill:#e3f2fd,stroke:#2196f3
+    style K1 fill:#fff3e0,stroke:#ff9800
+    style K2 fill:#fff3e0,stroke:#ff9800
 ```
 
 ## 第一阶段：构建知识库
@@ -155,6 +180,11 @@ my-embedded-project/
 
 编辑 `.skill-set`：
 ```
+# Vibe Coding 核心
+vibe-coding/core
+vibe-coding/multi-agent-safety
+vibe-coding/session-management
+
 # 开发工作流
 dev-workflow/git-commits
 dev-workflow/quality-gates
@@ -298,16 +328,24 @@ done
 
 ## 最佳实践
 
-### 1. 知识分层
+### 1. 知识分层（能力层）
 
+**路径1：主动学习（外部知识）**
 ```
-原始资料（知识库）     # 保存，不频繁访问
-    ↓ 提取
-精炼笔记              # 结构化整理
+原始资料（PDF/视频/文档）     # 保存，不频繁访问
+    ↓ 数据清洗
+精炼笔记                      # 结构化整理
     ↓ 封装
-Skill                # AI 可用
-    ↓ 引用
-项目开发             # 实际应用
+Skill                        # AI 可用
+```
+
+**路径2：实践沉淀（内生经验）**
+```
+项目实践
+    ↓ 发现问题
+经验总结                      # 直接写入，无需清洗
+    ↓ 
+Skill                        # 立即可用
 ```
 
 ### 2. 技能粒度

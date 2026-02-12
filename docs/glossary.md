@@ -24,11 +24,16 @@ AI 助手读取到此类章节时，必须严格遵守其中的规定。
 
 ## C
 
+### Capability Convention（能力约定）
+三种约定层次之一，指领域内做事的方法，类似个人知识习惯。
+
+**载体**：各 `SKILL.md` 文件
+**演进**：项目经验沉淀，HISTORY.md 记录演进
+
+示例：`git-commits`, `stm32`, `docker-best-practices`
+
 ### Convention over Configuration（约定优于配置）
-核心方法论之一，SKILL 不是可选的参考资料，而是**强制执行的工作约定**：
-- `[强制]` 标记的操作 AI 必须执行
-- `[禁止]` 标记的操作 AI 绝不能做  
-- `[OK]` 标记的做法 AI 应该采用
+三种核心理念之一，SKILL 不是可选的参考资料，而是**强制执行的工作约定**。
 
 通过 SKILL 固化流程，让 AI 遵循规则做事情，而不是每次依赖用户说明。
 
@@ -41,6 +46,14 @@ Skill 分类之一，包含通用开发流程的规范：
 - pr-workflow: PR 流程
 
 ## G
+
+### Global Convention（全局约定）
+三种约定层次之一，指 AI 的"本性"原则，跨领域通用。
+
+**载体**：`vibe-coding/core` 等核心 Skill
+**演进**：多次项目经验升华，变更需慎重
+
+示例：禁止擅自扩展、推送确认流程、渐进式披露原则
 
 ### Gateway Protocol（网关协议）
 Vibe Coding 架构的 Layer 4，用于 IDE 集成和 AI 工具连接。可选层，小型项目可不使用。
@@ -95,10 +108,12 @@ Skill 的子目录，包含可复用的代码模板和示例：
 - `patterns/examples/`: 参考示例代码
 
 ### Progressive Disclosure（渐进式披露）
-核心方法论之一，AI 只加载需要的信息：
+三种核心理念之一，AI 只加载需要的信息：
 - Level 1: Metadata（元数据）
 - Level 2: SKILL.md Body
 - Level 3: References
+
+避免上下文爆炸，按需加载知识。
 
 ### PR Workflow
 开发工作流 Skill，规范 Pull Request 流程：
@@ -112,7 +127,7 @@ Vibe Coding 架构的 Layer 5，实际的源代码实现。
 ## Q
 
 ### Quality Gates（质量门禁）
-核心方法论之一，AI 生成的代码必须通过预定义的检查：
+五阶段流程之一，AI 生成的代码必须通过预定义的检查：
 - 代码规范检查
 - 编译/运行验证
 - 测试覆盖检查
@@ -129,10 +144,10 @@ Skill 的子目录，包含详细的参考资料：
 ## S
 
 ### Session Persistence（会话持久化）
-核心方法论之一，保持开发会话的连续性：
-- 对话历史
-- 待办事项（`.skill-updates-todo.md`）
-- 用户偏好
+上下文管理机制，保持开发会话的连续性：
+- `.ai-context/` 目录存储关键决策
+- 支持上下文恢复
+- 可选全量对话日志
 
 ### Skill（技能）
 Vibe Coding 的核心知识单元，包含：
@@ -141,7 +156,12 @@ Vibe Coding 的核心知识单元，包含：
 - references/: 参考资料
 
 ### Skill Activation（技能激活）
-核心方法论之一，AI 根据任务自动识别并激活相关 Skill。
+AI 根据任务自动识别并激活相关 Skill 的机制。
+
+**触发方式**：
+- 显式声明：`.skill-set` 文件
+- 关键词匹配：description 中的关键词
+- 文件模式：触发文件类型
 
 ### Skill Registry（技能注册表）
 Vibe Coding 架构的 Layer 2，存储和管理所有 Skill 的中央仓库。

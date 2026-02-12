@@ -86,15 +86,19 @@ skills/
 
 ```
 skills/
+├── vibe-coding/           # Vibe Coding 核心方法论
+│   ├── core/             # 全局约定
+│   ├── multi-agent-safety/ # 多代理安全
+│   └── session-management/ # 会话管理
 ├── dev-workflow/          # 开发工作流
-│   ├── git-commits/       # Git 提交规范
-│   ├── quality-gates/     # 质量门禁
-│   └── pr-workflow/       # PR 流程
-├── embedded/              # 嵌入式开发
-│   ├── mcu/stm32/         # STM32
-│   └── rtos/freertos/     # FreeRTOS
-└── software/              # 软件开发
-    └── docker/            # Docker
+│   ├── git-commits/      # Git 提交规范
+│   ├── quality-gates/    # 质量门禁
+│   └── pr-workflow/      # PR 流程
+├── embedded/             # 嵌入式开发
+│   ├── mcu/stm32/        # STM32
+│   └── rtos/freertos/    # FreeRTOS
+└── software/             # 软件开发
+    └── docker-best-practices/ # Docker
 ```
 
 ### 关键特性
@@ -204,5 +208,5 @@ sequenceDiagram
 
 ## 下一步
 
-- 了解 [五种核心方法论](methodology.md)
+- 了解 [三种核心理念与五阶段流程](methodology.md)
 - 学习 [技能设计原则](skill-design.md)

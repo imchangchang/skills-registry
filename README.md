@@ -13,6 +13,16 @@
 
 ```
 skills/
+├── vibe-coding/           # Vibe Coding 核心方法论
+│   ├── core/             # 全局约定（三种约定层次）
+│   ├── multi-agent-safety/ # 多代理安全规则
+│   └── session-management/ # 会话管理规范
+│
+├── dev-workflow/          # 开发工作流技能
+│   ├── git-commits/      # Git 提交规范
+│   ├── quality-gates/    # 质量门禁
+│   └── pr-workflow/      # PR 工作流
+│
 ├── embedded/              # 嵌入式开发技能
 │   ├── common/           # 通用概念
 │   │   └── c-embedded/   # 嵌入式 C 开发规范
@@ -21,15 +31,9 @@ skills/
 │   └── rtos/             # RTOS 相关
 │       └── freertos/     # FreeRTOS
 │
-├── dev-workflow/          # 开发工作流技能
-│   ├── git-commits/      # Git 提交规范与多代理安全
-│   ├── quality-gates/    # 质量门禁
-│   └── pr-workflow/      # PR 工作流
-│
-└── software/             # 软件开发技能（待添加）
-    ├── python/
-    ├── docker/
-    └── ros/
+└── software/              # 软件开发技能
+    ├── docker-best-practices/
+    └── python-cli/
 
 scripts/
 ├── install.sh            # 安装技能库到本地
@@ -179,23 +183,35 @@ status: draft  # draft → stable
 
 ## 核心技能说明
 
+### vibe-coding/core
+Vibe Coding 全局约定，包含：
+- 三种核心理念（约定优于配置、渐进式披露、学习中演进）
+- 三种约定层次（全局/能力/项目）
+- 能力层与交付层双层结构
+- 主动学习与实践沉淀两条路径
+
+### vibe-coding/multi-agent-safety
+多代理安全规则，包含：
+- 绝对禁止操作清单（git stash, git add . 等）
+- 推送确认流程
+- 精确提交规范
+
+### vibe-coding/session-management
+会话管理规范，包含：
+- .ai-context/ 目录使用
+- Session 记录格式
+- 上下文恢复流程
+
 ### dev-workflow/git-commits
 Git 提交规范，包含：
-- 精确提交（禁止 `git add -A`）
-- Commit message 规范
-- 多代理安全规则
+- Commit message 格式
+- 精确提交流程
 
 ### dev-workflow/quality-gates
 质量门禁，包含：
 - C 项目检查（编译、静态分析）
 - Python 项目检查（格式、类型、测试）
 - 可扩展的 gate.sh 脚本
-
-### dev-workflow/pr-workflow
-PR 工作流，包含：
-- PR 创建流程
-- 审查规范
-- 合并流程
 
 ### embedded/mcu/st-stm32
 STM32 开发技能，示例技能，包含：

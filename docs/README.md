@@ -8,7 +8,7 @@
 |------|------|
 | [overview.md](overview.md) | Vibe Coding 概述与核心概念 |
 | [architecture.md](architecture.md) | 五层架构详解 |
-| [methodology.md](methodology.md) | 四种核心方法论 |
+| [methodology.md](methodology.md) | 三种核心理念与五阶段流程 |
 | [multi-agent.md](multi-agent.md) | 多代理安全规则 |
 | [skill-design.md](skill-design.md) | 技能库设计原则 |
 | [workflow.md](workflow.md) | 实施流程与最佳实践 |
@@ -25,4 +25,4 @@
 
 ---
 
-*基于 OpenClaw 项目实践总结*
+*基于 Vibe Coding 方法论实践总结*

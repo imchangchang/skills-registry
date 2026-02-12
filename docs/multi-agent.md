@@ -223,6 +223,10 @@ echo "[WARN] 发现其他工作区，创建新的独立目录"
 - [ ] 没有遗留的 stash
 - [ ] 没有修改其他代理的文件
 
+## 相关 Skill
+
+详见 `vibe-coding/multi-agent-safety` skill 获取完整的禁止操作清单和推送确认流程。
+
 ## 下一步
 
 - 学习 [技能设计原则](skill-design.md)
