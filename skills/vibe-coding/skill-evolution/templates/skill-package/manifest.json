@@ -1,0 +1,30 @@
+{
+  "package_version": "1.0.0",
+  "created_at": "2026-02-12T00:00:00Z",
+  "source_project": "your-project-name",
+  "target_skill": "category/skill-name",
+  "change_type": "incremental",
+  "strategy": "append",
+  "changes": {
+    "SKILL.md": {
+      "type": "patch",
+      "sections": [],
+      "lines_added": 0
+    },
+    "patterns/": {
+      "type": "add",
+      "files": []
+    },
+    "references/": {
+      "type": "add",
+      "files": []
+    },
+    "HISTORY.md": {
+      "type": "append"
+    }
+  },
+  "validation": {
+    "tested": false,
+    "test_project": "your-project-name"
+  }
+}

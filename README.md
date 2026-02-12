@@ -16,7 +16,8 @@ skills/
 ├── vibe-coding/           # Vibe Coding 核心方法论
 │   ├── core/             # 全局约定（三种约定层次）
 │   ├── multi-agent-safety/ # 多代理安全规则
-│   └── session-management/ # 会话管理规范
+│   ├── session-management/ # 会话管理规范
+│   └── skill-evolution/  # Skill 演化工具（从项目提炼知识）
 │
 ├── design-patterns/       # 通用设计模式
 │   └── pipeline-architecture/  # 渐进式管道架构
@@ -206,6 +207,13 @@ Vibe Coding 全局约定，包含：
 - Session 记录格式
 - 上下文恢复流程
 
+### vibe-coding/skill-evolution
+Skill 演化与提炼工具，包含：
+- extract-skill.sh: 从项目提取 Skill 更新
+- merge-skill.sh: 将导入包融合到 Skill 仓库
+- 导入包格式规范
+- 知识从项目到 Skill 仓库的完整工作流
+
 ### design-patterns/pipeline-architecture
 渐进式管道架构，通用设计思想，包含：
 - 三大哲学原则：数据流即程序、渐进式复杂度、可观测性即架构
@@ -258,6 +266,7 @@ cp templates/AGENTS.md ~/projects/my-project/AGENTS.md
 
 ## 迭代记录
 
+- 2026-02-12: 添加 skill-evolution 工具 skill，支持从项目实践中自动提炼知识
 - 2026-02-12: 添加 pipeline-architecture 设计模式 skill，从 video2markdown 项目抽象出通用架构思想
 - 2026-02-11: 初始创建，添加 embedded 和 dev-workflow 基础技能
 - 2026-02-11: 添加 docker-best-practices 技能
