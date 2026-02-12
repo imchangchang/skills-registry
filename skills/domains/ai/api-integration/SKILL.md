@@ -1,6 +1,6 @@
 ---
 name: ai-api-integration
-version: "1.1.0"
+version: "1.2.0"
 description: AI API 集成开发最佳实践（OpenAI/Kimi），包含对话、视觉理解、流式处理和 Prompt 工程方法论
 tags: ["ai", "api", "openai", "kimi", "llm", "vision", "prompt-engineering"]
 ---
@@ -303,11 +303,77 @@ def call_api(messages):
     return client.chat.completions.create(...)
 ```
 
-### Token 管理
+### Token 统计与成本监控
 
-- 监控输入/输出 token 数量
-- 设置 max_tokens 控制成本
-- 使用 tiktoken 预计算
+**[强制] 所有 AI API 调用必须记录 Token 使用量**
+
+Token 统计是衡量 API 集成效率的核心指标，直接影响成本。
+
+```python
+from dataclasses import dataclass
+from typing import Optional
+
+@dataclass
+class TokenUsage:
+    prompt_tokens: int      # 输入 token
+    completion_tokens: int  # 输出 token
+    total_tokens: int       # 总计
+    
+    @property
+    def cost_usd(self) -> float:
+        """估算成本（以 Kimi 为例）"""
+        # 价格需根据实际模型更新
+        input_cost = self.prompt_tokens * 0.000002  # $2/M tokens
+        output_cost = self.completion_tokens * 0.000006  # $6/M tokens
+        return input_cost + output_cost
+
+def call_with_logging(client, model: str, messages: list, **kwargs) -> tuple[str, TokenUsage]:
+    """调用 API 并记录 Token 使用情况"""
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        **kwargs
+    )
+    
+    usage = TokenUsage(
+        prompt_tokens=response.usage.prompt_tokens,
+        completion_tokens=response.usage.completion_tokens,
+        total_tokens=response.usage.total_tokens
+    )
+    
+    # [强制] 必须打印日志
+    print(f"[Token] Input: {usage.prompt_tokens}, Output: {usage.completion_tokens}, "
+          f"Total: {usage.total_tokens}, Est: ${usage.cost_usd:.4f}")
+    
+    return response.choices[0].message.content, usage
+```
+
+**测试要求**
+
+Token 效率应作为测试指标之一：
+
+```python
+def test_token_efficiency():
+    """验证 Token 使用效率"""
+    result, usage = call_with_logging(client, model, test_prompt)
+    
+    # 断言最大 Token 限制
+    assert usage.prompt_tokens < 2000, f"输入过长: {usage.prompt_tokens}"
+    assert usage.completion_tokens < 500, f"输出过长: {usage.completion_tokens}"
+    
+    # 断言成本上限
+    assert usage.cost_usd < 0.01, f"成本过高: ${usage.cost_usd}"
+```
+
+**监控指标**
+
+| 指标 | 说明 | 建议阈值 |
+|------|------|---------|
+| prompt_tokens | 输入 token 数 | 根据任务设定 |
+| completion_tokens | 输出 token 数 | 根据任务设定 |
+| total_tokens | 总计 | 监控异常峰值 |
+| 单次调用成本 | 估算费用 | 设置预算上限 |
+| 日均消耗 | 累计成本 | 设置告警阈值 |
 
 ---
 
@@ -482,11 +548,33 @@ messages = prompt.render(code=user_code, language="python")
 3. 展示变更 diff 给用户确认
 4. 如需回滚，可直接通过 git 恢复
 
+**[强制] Token 统计必须实现**
+
+AI 助手在实现任何 AI API 集成功能时，**必须**包含 Token 统计：
+
+```python
+# [X] 禁止：无 Token 统计
+response = client.chat.completions.create(...)
+return response.choices[0].message.content
+
+# [OK] 正确：记录 Token 使用
+response = client.chat.completions.create(...)
+print(f"[Token] Input: {response.usage.prompt_tokens}, "
+      f"Output: {response.usage.completion_tokens}")
+return response.choices[0].message.content
+```
+
+检查清单：
+- [ ] API 响应中读取 `usage.prompt_tokens` 和 `usage.completion_tokens`
+- [ ] 日志中明确打印 Token 数量
+- [ ] 测试用例中包含 Token 效率断言
+
 ---
 
 ## 更新历史
 
 | 版本 | 日期 | 变更 |
 |------|------|------|
+| 1.2.0 | 2026-02-12 | 新增 [强制] Token 统计与成本监控原则 |
 | 1.1.0 | 2026-02-11 | 重构 Prompt 管理为方法论；创建项目模板 |
 | 1.0.0 | 2026-02-10 | 初始版本：基础 API 集成 |
