@@ -7,16 +7,6 @@
   "tags": [
     "vibe-coding",
     "ai-collaboration",
-    "global-convention",
-    "convention-over-configuration",
-    "progressive-disclosure"
-  ],
-  "concepts": [
-    "Convention over Configuration",
-    "Progressive Disclosure",
-    "Learning by Evolution",
-    "Three-level Convention",
-    "Capability Layer",
-    "Delivery Layer"
+    "global-convention"
   ]
 }

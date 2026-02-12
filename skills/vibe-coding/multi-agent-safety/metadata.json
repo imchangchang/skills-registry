@@ -1,8 +1,13 @@
 {
   "name": "multi-agent-safety",
-  "description": "多代理协作安全规则，强制执行 Git 操作安全和推送确认流程",
-  "version": "1.0.0",
-  "author": "AI Assistant",
-  "tags": ["git", "safety", "multi-agent", "workflow", "vibe-coding"],
-  "dependencies": ["dev-workflow/git-commits"]
+  "description": "多代理协作安全规则。当项目使用 Vibe Coding 且涉及 Git 操作时强制执行。包含推送确认流程、禁止操作清单、精确提交规范。",
+  "type": "global-convention",
+  "created": "2026-02-11",
+  "status": "stable",
+  "tags": [
+    "git",
+    "safety",
+    "multi-agent",
+    "workflow"
+  ]
 }

@@ -1,22 +1,12 @@
 {
   "name": "skill-evolution",
-  "description": "Skill 演化与提炼工具。从项目实践中自动提取新的理解和约定，生成 Skill 导入包，支持增量更新和仓库融合。Vibe Coding 核心能力。",
+  "description": "Skill 演化与提炼规范。定义从项目实践中提取知识、生成 Skill 导入包、融合到 Skill 仓库的标准流程。",
   "type": "global-convention",
   "created": "2026-02-12",
   "status": "stable",
   "tags": [
     "vibe-coding",
     "skill-management",
-    "evolution",
-    "automation",
-    "knowledge-extraction"
-  ],
-  "related_skills": [
-    "vibe-coding/core",
-    "vibe-coding/session-management"
-  ],
-  "tools": [
-    "extract-skill.sh",
-    "merge-skill.sh"
+    "evolution"
   ]
 }

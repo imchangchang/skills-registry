@@ -10,10 +10,5 @@
     "hal",
     "embedded",
     "arm"
-  ],
-  "related_skills": [
-    "embedded/common/c-embedded",
-    "embedded/rtos/freertos"
-  ],
-  "mcu_series": ["F4", "F7", "H7"]
+  ]
 }

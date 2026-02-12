@@ -142,11 +142,6 @@ Vibe Coding：第一次就按规范实现
 ### [强制] 推送确认流程
 AI 执行 git push 前必须获得明确确认
 
-**演进方式**：
-- 多次项目后发现跨领域通用原则
-- 由具体项目经验升华而来
-- 变更需慎重，影响所有项目
-
 ### [强制] SKILL 指导执行，脚本只是辅助
 
 **本质**：SKILL 是 AI 的执行规范，脚本只是可选的辅助工具
@@ -452,6 +447,63 @@ project-root/
    - 下一步任务
 4. 如无 session，询问用户是否创建
 ```
+
+---
+
+## Skill-Set 机制
+
+**定义**：项目通过 `.skill-set` 文件声明引用的 Skill 列表
+
+### 基本格式
+
+每行一个 Skill 路径：
+
+```
+vibe-coding/core
+dev-workflow/git-commits
+embedded/mcu/st-stm32
+```
+
+### 通配符（新增）
+
+使用 `*` 引入整个分类：
+
+```
+# 引入 vibe-coding 下所有 Skill
+vibe-coding/*
+
+# 展开为：
+# vibe-coding/core
+# vibe-coding/multi-agent-safety
+# vibe-coding/session-management
+# vibe-coding/skill-evolution
+```
+
+### 完整示例
+
+```
+# Vibe Coding 全部
+vibe-coding/*
+
+# 开发工作流（显式指定）
+dev-workflow/git-commits
+
+# 嵌入式
+embedded/mcu/st-stm32
+
+# 软件技能全部
+software/*
+```
+
+### AI 解析规则
+
+1. 逐行读取
+2. `#` 开头为注释，跳过
+3. 空行跳过  
+4. `/*` 结尾：展开为该目录下所有子目录（需含 SKILL.md）
+5. 其他：作为具体 Skill 路径
+
+参考：references/skill-set-spec.md
 
 ---
 

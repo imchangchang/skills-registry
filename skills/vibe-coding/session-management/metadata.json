@@ -8,11 +8,6 @@
     "vibe-coding",
     "session",
     "context",
-    "ai-context",
-    "continuity"
-  ],
-  "related_skills": [
-    "vibe-coding/core",
-    "vibe-coding/multi-agent-safety"
+    "ai-context"
   ]
 }
