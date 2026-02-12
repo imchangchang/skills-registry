@@ -1,3 +1,10 @@
+---
+name: python-cli
+description: Python CLI 开发最佳实践，命令行工具、参数解析、输出格式化。
+created: 2026-02-12
+status: stable
+---
+
 # Python CLI 开发最佳实践
 
 ## 概述

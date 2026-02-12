@@ -1,3 +1,10 @@
+---
+name: python-core
+description: Python 核心开发实践，使用 uv 进行项目开发。
+created: 2026-02-12
+status: stable
+---
+
 # Python 开发最佳实践（uv 版）
 
 ## 概述

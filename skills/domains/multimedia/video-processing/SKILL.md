@@ -1,3 +1,10 @@
+---
+name: video-processing
+description: 视频处理最佳实践，包含 FFmpeg、OpenCV 和关键帧提取。
+created: 2026-02-12
+status: stable
+---
+
 # 视频处理最佳实践
 
 ## 概述
