@@ -1,14 +1,13 @@
-# Vibe Coding 五层架构
+# Vibe Coding 四层架构
 
 Vibe Coding 采用分层架构设计，确保 AI 能够高效、安全地协作开发。
 
 ```mermaid
 graph TB
-    L5[Layer 5: 项目核心<br/>源代码实现] --> L4
-    L4[Layer 4: 网关协议<br/>可选的 AI 集成层] --> L3
-    L3[Layer 3: 工作流引擎<br/>PR/开发流程] --> L2
+    L4[Layer 4: 项目核心<br/>源代码实现] --> L3
+    L3[Layer 3: 工作流引擎<br/>质量门禁与交付流程] --> L2
     L2[Layer 2: 技能注册表<br/>Skill Registry] --> L1
-    L1[Layer 1: AI 代理上下文<br/>AGENTS.md / SKILL.md]
+    L1[Layer 1: AI 代理上下文<br/>三种约定层次]
 ```
 
 ## Layer 1: AI Agent Context（AI 代理上下文）
@@ -135,23 +134,7 @@ review-pr → prepare-pr → merge-pr
 - [ ] 测试通过
 - [ ] 安全扫描
 
-## Layer 4: Gateway Protocol（网关协议）
-
-**作用**：可选层，用于 IDE 集成和 AI 工具连接。
-
-### 使用场景
-
-- IDE 插件与 AI 服务通信
-- 多 AI 代理协调
-- 会话状态管理
-
-### 实现方式
-
-- WebSocket/stdio 桥接
-- ACP (Agent Client Protocol)
-- 自定义协议
-
-## Layer 5: Project Core（项目核心）
+## Layer 4: Project Core（项目核心）
 
 **作用**：实际的项目源代码。
 
