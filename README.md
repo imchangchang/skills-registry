@@ -26,7 +26,8 @@ skills/
 ├── dev-workflow/          # 开发工作流技能
 │   ├── git-commits/      # Git 提交规范
 │   ├── quality-gates/    # 质量门禁
-│   └── pr-workflow/      # PR 工作流
+│   ├── pr-workflow/      # PR 工作流
+│   └── bash-scripting/   # Bash 脚本编写技巧
 │
 ├── embedded/              # 嵌入式开发技能
 │   ├── common/           # 通用概念
@@ -37,9 +38,11 @@ skills/
 │       └── freertos/     # FreeRTOS
 │
 └── software/              # 软件开发技能
+    ├── ai-api-integration/       # AI API 集成（OpenAI/Kimi）
     ├── docker-best-practices/
     ├── python-cli/
-    └── python-dev/
+    ├── python-dev/
+    └── video-processing/         # 视频处理通用技能
 
 scripts/
 ├── install.sh            # 安装技能库到本地
@@ -237,6 +240,13 @@ Git 提交规范，包含：
 - C 项目检查（编译、静态分析）
 - Python 项目检查（格式、类型、测试）
 - 可扩展的 gate.sh 脚本
+
+### dev-workflow/bash-scripting
+Bash 脚本编写指南，包含：
+- set -e 陷阱和解决方案
+- 数组使用技巧
+- 文件名空格处理
+- 错误处理最佳实践
 
 ### embedded/mcu/st-stm32
 STM32 开发技能，示例技能，包含：
