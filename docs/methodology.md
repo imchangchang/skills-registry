@@ -1,372 +1,489 @@
-# 五种核心方法论
+# Vibe Coding 方法论
 
-Vibe Coding 基于五种核心方法论，确保 AI 协作开发的高效性和可靠性。
-
-## 0. 约定优于配置（Convention over Configuration）
-
-### 核心理念
-
-> **SKILL 不是知识库，而是规则约定**
-
-传统思路：SKILL = 参考资料（AI 可以读，也可以不读）
-Vibe Coding：SKILL = **强制执行的工作约定**（AI 必须遵循）
-
-### 规则约定的三个层次
-
-```
-Level 0: AI 助手全局约定（所有项目通用）
-    ↓ 声明于
-    AGENTS.md / SKILL.md "AI 助手约定" 章节
-    
-Level 1: 项目级约定（特定项目类型）
-    ↓ 声明于
-    .skill-set + SKILL.md
-    
-Level 2: 任务级约定（具体场景）
-    ↓ 声明于
-    SKILL.md 的具体章节
-```
-
-### 约定示例
-
-**示例 1：AI 项目 Prompt 管理约定**
-```markdown
-## AI 助手约定（强制执行）
-
-### [强制] Prompt 文件化管理
-
-AI 助手在开发 AI 功能时，**禁止将 Prompt 硬编码在代码中**。
-
-正确做法：
-- [OK] 必须将 Prompt 放在 prompts/ 下的 .md 文件
-- [OK] 使用 YAML Frontmatter 格式记录版本和参数
-
-错误做法：
-- [X] messages = [{"role": "system", "content": "你是..."}]
-```
-
-**示例 2：Git 提交约定**
-```markdown
-## AI 助手约定（强制执行）
-
-### [禁止] 以下操作
-- [X] git add . 或 git add -A
-- [X] git commit -am "message"
-- [X] 未经明确指令执行 git push
-
-### [强制] 正确流程
-1. 使用 git status 查看变更
-2. 使用 git add <具体文件> 精确添加
-3. 使用规范格式提交：type(scope): subject
-```
-
-### 约定的特征
-
-| 特征 | 说明 |
-|------|------|
-| **明确性** | 使用 `[强制]`、`[禁止]`、`[OK]` 等明确标记 |
-| **可检查** | AI 助手能自我检查是否遵守 |
-| **自动化** | 通过脚本/工具辅助执行（如 init-vibe.sh 自动创建目录） |
-| **可追踪** | 违反约定时，能定位到具体 SKILL 条款 |
-
-### 为什么需要约定？
-
-**问题：AI 助手行为不一致**
-- 不同 AI 对同一任务处理方式不同
-- 同一 AI 不同会话行为有差异
-- 用户需要反复解释要求
-
-**解决：SKILL 固化流程**
-```
-用户: "提交代码"
-      ↓
-AI 读取 .skill-set → 发现 git-commits skill
-      ↓
-AI 读取 SKILL.md → 找到 "AI 助手约定" 章节
-      ↓
-AI 执行约定的流程（无需用户说明）
-      ↓
-用户得到一致、可预期的结果
-```
-
-### 创建有效约定的原则
-
-1. **具体可执行**：不要"注意代码质量"，要"运行 ./scripts/gate.sh 通过所有检查"
-2. **二义性排除**：用 `[强制]`/`[禁止]`/`[OK]` 代替"建议"、"应该"
-3. **自动化友好**：约定应能被脚本检查或自动执行
-4. **版本化**：约定随 SKILL 版本更新，变更可追溯
+本文档描述 Vibe Coding 的完整方法论，整合了核心理念、实施流程和最佳实践。
 
 ---
 
-## 2. 渐进式披露（Progressive Disclosure）
+## 什么是 Vibe Coding
 
-## 1. 渐进式披露（Progressive Disclosure）
+Vibe Coding 由 Andrej Karpathy 于 2025 年 2 月提出，其核心理念是：**开发者通过自然语言描述需求，AI 工具负责具体的代码实现**。
 
-### 概念
+这种方式将编程从"手写每一行代码"转变为"描述意图并指导 AI 实现"。
 
-AI 只加载当前需要的信息，避免上下文窗口浪费。
+**来源**: [Andrej Karpathy - Vibe Coding](https://karpathy.bearblog.dev/vibe-coding-menugen/)
 
-### 三级加载机制
+---
+
+## 核心理念（3条）
+
+### 1. 约定优于配置（Convention over Configuration）
+
+**本质**：用强制规则替代临时指令
 
 ```
-Level 1: Metadata（元数据）      ~100 tokens
+传统方式：每次向 AI 说明"不要 git add ."
+Vibe Coding：规则写入 SKILL，AI 自动遵守
+```
+
+**关键区别**：
+- SKILL ≠ 参考资料（可看可不看）
+- SKILL = 强制执行的工作约定（必须遵循）
+
+### 2. 渐进式披露（Progressive Disclosure）
+
+**本质**：AI 按需加载，避免上下文爆炸
+
+```
+Level 1: Metadata（元数据）     ~100 tokens
     ↓ 触发条件匹配
-Level 2: SKILL.md Body           ~2k-5k tokens
+Level 2: SKILL.md Body          ~2k-5k tokens
     ↓ AI 判断需要
-Level 3: References              无限制
+Level 3: References             无限制
 ```
 
-### 实现方式
-
-#### Level 1: Metadata（始终加载）
-```yaml
----
-name: skill-name
-description: 详细描述，包含触发关键词
----
-```
-
-AI 通过 description 判断是否触发该 skill。
-
-#### Level 2: SKILL.md Body（触发后加载）
-```markdown
-# 技能名称
-
-## 适用场景
-何时使用此技能
-
-## 核心概念
-关键知识点
-
-## 快速开始
-代码示例
-```
-
-#### Level 3: References（按需加载）
-```markdown
-## 参考资料
-- references/detailed-guide.md  # 需要时读取
-- references/api-reference.md   # 需要时读取
-```
-
-### 最佳实践
-
+**实践**：
 - SKILL.md 保持精简（< 500 行）
-- 大文档拆分到 references/
+- 详细内容放入 references/
 - 明确说明何时加载 reference
 
-## 3. 技能激活（Skill Activation）
+### 3. 学习中演进
 
-### 概念
+**本质**：被动式经验沉淀，能力持续成长
 
-AI 根据任务自动识别并激活相关技能。
-
-### 触发方式
-
-#### 方式 1：显式声明
-项目在 `.skill-set` 中声明技能：
 ```
-embedded/mcu/st-stm32
-dev-workflow/git-commits
-```
-
-#### 方式 2：关键词匹配
-Skill 的 description 包含触发关键词：
-```yaml
-description: STM32 MCU development... Use when implementing STM32...
+项目交付中发现问题
+       │
+       ▼
+快速记录 → 整理到 SKILL
+       │
+       ▼
+能力层升级 → 支撑更好的交付
 ```
 
-#### 方式 3：文件模式匹配
-```yaml
-triggers:
-  - file_pattern: "**/*.c"
-  - file_pattern: "**/*.h"
-```
+**触发机制**：被动式，遇到问题才更新
 
-### 激活流程
+---
+
+## 两种层次结构
 
 ```mermaid
-graph LR
-    A[任务描述] --> B{匹配 Skill?}
-    B -->|是| C[加载 SKILL.md]
-    B -->|否| D[使用通用知识]
-    C --> E[执行技能指导]
-```
-
-## 4. 会话持久化（Session Persistence）
-
-### 概念
-
-保持开发会话的连续性，支持中断恢复。
-
-### 会话键格式
-
-```
-{agent}:{scope}:{context}
-
-示例:
-- claude:stm32-gpio:config
-- gpt4:docker-setup:debug
-```
-
-### 持久化内容
-
-| 内容 | 用途 |
-|------|------|
-| 对话历史 | 保持上下文连贯 |
-| 技能加载记录 | 避免重复加载 |
-| 用户偏好 | 个性化设置 |
-| 待办事项 | `.skill-updates-todo.md` |
-| 会话记录 | `.ai-context/session-*.md` |
-
-### 项目级持久化
-
-```
-.vibe/
-├── .skill-updates-todo.md    # 技能更新待办
-├── backups/                  # 文件备份
-└── sessions/                 # 会话记录（可选）
-
-.ai-context/                  # AI 会话上下文（Git 忽略内容）
-├── .gitkeep                  # 确保目录被跟踪
-└── session-YYYY-MM-DD.md     # 实际会话记录（被忽略）
-```
-
-### 上下文管理流程
-
-**初始化时**（`vibe init` 自动创建）：
-```bash
-mkdir -p .ai-context
-touch .ai-context/.gitkeep
-```
-
-**会话结束时**（AI 助手执行）：
-```bash
-# 整理关键决策写入会话记录
-cat > .ai-context/session-2026-02-11.md << 'EOF'
-# Session 2026-02-11
-
-## 关键决策
-- 选择 FreeRTOS 作为 RTOS
-- 确定任务优先级分配策略
-
-## 下一步
-- 实现任务间通信
-EOF
-```
-
-**会话恢复时**（AI 助手执行）：
-```bash
-# 1. 检测历史会话
-ls .ai-context/session-*.md 2>/dev/null
-
-# 2. 向用户展示摘要
-# 3. 用户确认后恢复上下文
-# 4. 可选：删除旧文件避免堆积
-```
-
-### Git 配置
-
-`.gitignore`:
-```gitignore
-# AI 会话上下文（保留目录，忽略内容）
-.ai-context/*
-!.ai-context/.gitkeep
-```
-
-## 5. 质量门控（Quality Gates）
-
-### 概念
-
-AI 生成的代码必须通过预定义的检查才能提交。
-
-### 标准质量门流水线
-
-```bash
-# Gate 1: 静态检查
-lint-check
-
-# Gate 2: 类型检查
-type-check
-
-# Gate 3: 构建检查
-build-check
-
-# Gate 4: 测试检查
-test-check
-```
-
-### 嵌入式项目质量门
-
-```bash
-#!/bin/bash
-# gate.sh
-
-echo "[SEARCH] 运行质量门禁..."
-
-# 1. 编译检查（零警告）
-make clean
-make 2>&1 | tee build.log
-if grep -i "warning" build.log; then
-    echo "[X] 存在编译警告"
-    exit 1
-fi
-
-# 2. 静态分析
-if command -v cppcheck >/dev/null; then
-    cppcheck --enable=all --error-exitcode=1 src/
-fi
-
-# 3. 代码格式
-clang-format --dry-run --Werror src/*.c
-
-echo "[OK] 质量门禁通过"
-```
-
-### 质量门触发时机
-
-```mermaid
-graph LR
-    A[AI 生成代码] --> B[人工审核]
-    B --> C{质量门}
-    C -->|通过| D[提交代码]
-    C -->|失败| E[返回修改]
-    E --> A
-```
-
-### 强制检查项
-
-- [ ] 代码可编译
-- [ ] 无编译警告（`-Wall -Werror`）
-- [ ] 静态分析通过
-- [ ] 测试通过
-- [ ] 符合项目规范
-
-## 五种方法论的协同
-
-```mermaid
-graph TB
-    subgraph 开发流程
-        A[任务开始] --> B[约定优于配置<br/>加载执行规则]
-        B --> C[渐进式披露<br/>加载必要上下文]
-        C --> D[技能激活<br/>识别相关技能]
-        D --> E[AI 生成代码]
-        E --> F[质量门控<br/>强制检查]
-        F -->|通过| G[代码提交]
-        F -->|失败| E
-        G --> H[会话持久化<br/>记录待办]
+flowchart TB
+    subgraph Capability["能力层（知识积累）"]
+        %% 路径1：主动学习
+        K1[收集资料<br/>PDF/视频/文档] --> L[知识库]
+        L -->|数据清洗| S[结构化知识]
+        
+        %% 路径2：实践沉淀
+        K2[实践经验] -->|无需清洗| M[SKILLS]
+        
+        %% 合并
+        S --> M
     end
+    
+    subgraph Delivery["交付层（项目迭代）"]
+        A[原始需求] --> B[人与AI讨论方案]
+        B --> C[方案]
+        C --> D[AI实现]
+        D --> D1[质量门控]
+        D1 --> E[人验收]
+        E --> F{验收通过?}
+        F -->|是| G[结束]
+        F -->|否| H{原因?}
+        H -->|迭代需求| A
+        H -->|优化方案| C
+    end
+    
+    %% SKILL引用到交付层各阶段
+    M -.->|迭代SKILL| B
+    M -.->|引用| C
+    M -.->|引用| D
+    
+    %% 反馈回路
+    B -.->|迭代SKILL| K2
+    C -.->|迭代SKILL| K2
+    E -.->|迭代SKILL| K2
+    
+    style Capability fill:#e1f5e1,stroke:#4caf50
+    style Delivery fill:#e3f2fd,stroke:#2196f3
+    style K1 fill:#fff3e0,stroke:#ff9800
+    style K2 fill:#fff3e0,stroke:#ff9800
 ```
+
+### 能力层
+
+**定义**：知识积累和能力建设
+
+**两条输入路径**：
+
+```mermaid
+flowchart TB
+    subgraph Capability["能力层"]
+        %% 路径1：主动学习
+        K1[收集资料<br/>PDF/视频/文档] --> L[知识库]
+        L -->|数据清洗| S[结构化知识]
+        
+        %% 路径2：实践沉淀
+        K2[实践经验] -->|无需清洗| M[SKILLS]
+        
+        %% 合并
+        S --> M
+    end
+    
+    style K1 fill:#fff3e0,stroke:#ff9800
+    style K2 fill:#fff3e0,stroke:#ff9800
+```
+
+**路径1：主动学习（外部知识）**
+
+```
+收集资料（PDF/视频/文档）
+        ↓
+数据清洗（PDF转MD/视频转笔记）
+        ↓
+提取关键知识
+        ↓
+创建/更新 SKILL
+```
+
+**特点**：
+- 需要数据清洗和结构化
+- 外部信息需要消化转换
+- 类似人学习做笔记的过程
+
+**路径2：实践沉淀（内生经验）**
+
+```
+项目实践（开发/测试/验收）
+        ↓
+发现问题或模式
+        ↓
+直接写入 SKILL（无需清洗）
+        ↓
+能力立即升级
+```
+
+**特点**：
+- 第一手经验，立即可用
+- AI自测结果或人手写规则
+- 无需复杂的转换处理
+
+**对比**：
+
+| 维度 | 主动学习 | 实践沉淀 |
+|------|----------|----------|
+| 来源 | 外部资料 | 内生经验 |
+| 处理 | 需要数据清洗 | 无需清洗 |
+| 时效 | 较慢 | 即时 |
+| 典型场景 | 学习新技术 | 项目中发现模式 |
+
+### 交付层
+
+**定义**：具体项目的开发迭代
+
+**流程**：
+```
+原始需求
+    ↓
+人与AI讨论方案
+    ↓
+AI实现（引用SKILLS）
+    ↓
+质量门控
+    ↓
+人验收
+    ↓
+├── 通过 → 结束
+└── 不通过 → 改需求/优化方案
+```
+
+**人验收后的选择**：
+
+| 选择 | 流向 | 说明 |
+|------|------|------|
+| 改需求 | 交付层迭代 | 需求理解有偏差，重新讨论方案 |
+| 优化方案 | 交付层迭代 | 方案有问题，调整实现方式 |
+| 沉淀经验 | 能力层提升 | 发现通用问题，更新 SKILL |
+
+---
+
+## 三种约定层次
+
+### 全局约定（Global Convention）
+
+**定义**：AI 的"本性"原则，跨领域通用
+
+**载体**：`vibe-coding/core` 等核心 Skill
+
+**示例**：
+- 禁止擅自扩展
+- 推送确认流程
+- 渐进式披露原则
+
+**演进**：从多次项目经验中升华，变更需慎重
+
+### 能力约定（Capability Convention）
+
+**定义**：领域内做事方法，类似个人知识习惯
+
+**载体**：各 SKILL.md 文件
+
+**结构**：
+```
+skills/
+├── vibe-coding/                  # Vibe Coding 核心
+│   ├── core/                     # 全局约定
+│   ├── multi-agent-safety/       # 安全规则
+│   └── session-management/       # 会话管理
+├── dev-workflow/
+│   ├── git-commits/              # Git 提交习惯
+│   └── quality-gates/            # 质量检查习惯
+├── embedded/
+│   └── mcu/st-stm32/             # STM32 开发习惯
+└── software/
+    └── docker-best-practices/    # Docker 使用习惯
+```
+
+**粒度原则**：先从大开始，出现问题再拆分
+
+**演进**：项目经验沉淀，HISTORY.md 记录演进
+
+### 项目/任务约定（Project/Task Convention）
+
+**定义**：具体场景的附加约束
+
+**载体**：AGENTS.md、任务描述
+
+**示例**：
+- 本项目必须使用 HAL 库
+- 堆内存限制 64KB
+- 本次任务使用环形缓冲区
+
+**特点**：临时性，可覆盖上层约定
+
+---
+
+## 实施流程（五阶段）
+
+### 阶段一：需求与方案讨论
+
+**参与者**：人主导，AI 协助
+
+**目标**：将模糊需求转化为清晰方案
+
+**步骤**：
+1. 人提供原始需求
+2. 人与 AI 讨论细化（澄清模糊点、识别约束、讨论方案）
+3. 输出明确实施方案
+
+**关键实践**：
+- 要求 AI 先输出方案再实施
+- 使用 PRD 模板记录需求
+- 人做最终决策
+
+### 阶段二：技能库准备
+
+**参与者**：人与 AI 协作
+
+**目标**：确保 AI 拥有所需知识
+
+**步骤**：
+1. 识别所需技能
+2. 检查技能库
+3. 加载相关 SKILL
+4. 知识补充（如不足则创建新技能）
+
+### 阶段三：AI 实现
+
+**参与者**：AI 主导，人监督
+
+**目标**：完成代码实现
+
+**步骤**：
+1. 加载上下文和技能
+2. 生成代码
+3. 自测验证
+4. 交付结果
+
+**关键实践**：
+- 遵循所有三层约定
+- 保持对话聚焦
+- 当 AI 困惑时重置上下文
+
+### 阶段四：质量门控
+
+**参与者**：AI 执行
+
+**目标**：自动化检查基础质量
+
+**标准流水线**：
+```bash
+lint-check → type-check → build-check → test-check
+```
+
+**嵌入式项目检查项**：
+- [ ] 代码可编译（零警告）
+- [ ] 静态分析通过
+- [ ] 代码格式符合规范
+
+### 阶段五：人验收
+
+**参与者**：人主导
+
+**目标**：验证结果，决定下一步
+
+**验收维度**：
+
+| 维度 | 检查内容 |
+|------|----------|
+| 功能正确性 | 是否实现需求 |
+| 代码质量 | 是否简洁清晰 |
+| 安全性 | 是否存在漏洞 |
+| 可维护性 | 是否易于理解修改 |
+| 性能 | 是否满足要求 |
+
+**验收后的选择**：
+
+```
+人验收
+    │
+    ├── 通过 ────────► 结束
+    │
+    ├── 改需求 ──────► 阶段一（重新讨论方案）
+    │
+    ├── 优化方案 ────► 阶段三（重新实现）
+    │
+    └── 沉淀经验 ────► 更新 SKILL（能力层提升）
+              └──► 阶段一（用新能力继续）
+```
+
+---
+
+## 支撑机制
+
+### 上下文管理
+
+**`.ai-context/` 目录**：
+```
+project-root/
+├── .ai-context/
+│   ├── session-2026-02-11.md      # 关键决策摘要
+│   └── full-logs/                 # 可选：完整对话
+└── .gitignore                     # 忽略 .ai-context/
+```
+
+**AI 进入项目时**：
+1. 检查 `.ai-context/` 是否存在
+2. 读取最新 session
+3. 确认理解目标和决策
+4. 无 session 时询问是否创建
+
+### 多代理安全规则
+
+**绝对禁止**：
+- `git stash`
+- `git checkout`（除非明确要求）
+- `git add -A` 或 `git add .`
+- `git push`（无明确确认）
+- 修改 `.worktrees/`
+
+**推送确认流程**：
+```
+用户明确说"推送"/"push" → 二次确认 → 执行 push
+用户未明确说 → 必须询问 → 等待明确回复
+```
+
+详见 `vibe-coding/multi-agent-safety` skill。
+
+---
 
 ## 最佳实践
 
-1. **约定优于配置**：每个 SKILL 都应包含 "AI 助手约定" 章节，明确 AI 必须遵循的规则
-2. **渐进式披露**：保持 SKILL.md 精简，详细内容放 references/
-3. **技能激活**：在 description 中明确触发条件
-4. **会话持久化**：定期整理 `.skill-updates-todo.md`
-5. **质量门控**：根据项目特点定制检查项
+### 提示工程
 
-## 下一步
+**三层结构**（关键节点使用）：
+1. 技术上下文和约束
+2. 功能需求和用户故事
+3. 集成和边界情况
 
-- 了解 [多代理安全规则](multi-agent.md)
-- 学习 [实施流程](workflow.md)
+**自然对话为主**：
+- 初始需求保持简洁
+- 通过多轮对话逐步细化
+- 技能库减少重复描述
+
+### 版本控制
+
+**精确提交**：
+```bash
+# [OK]
+git add src/file1.c src/file2.h
+git commit -m "feat(gpio): add interrupt debounce"
+
+# [X]
+git add .
+git commit -am "update"
+```
+
+**Commit Message 格式**：`type(scope): subject`
+
+### 安全实践
+
+| 风险 | 防护措施 |
+|------|----------|
+| 提示注入 | 验证输入，限制 AI 权限 |
+| 不安全模式 | 代码审查，密钥管理 |
+| 供应链攻击 | 审查依赖，固定版本 |
+
+---
+
+## 常见陷阱与避免
+
+### 陷阱一：过度依赖 AI
+
+**表现**：完全不理解生成的代码，盲目部署
+
+**避免**：
+- 始终阅读并理解代码
+- 要求 AI 解释复杂逻辑
+- 建立代码审查流程
+
+### 陷阱二：上下文爆炸
+
+**表现**：AI 因上下文过多而困惑
+
+**避免**：
+- 保持对话聚焦
+- 定期重置上下文
+- 使用技能库按需加载
+
+### 陷阱三：知识孤岛
+
+**表现**：项目经验无法复用
+
+**避免**：
+- 及时沉淀到技能库
+- 维护 HISTORY.md
+- 定期回顾更新技能
+
+---
+
+## 参考资源
+
+### 核心文献
+
+1. Andrej Karpathy - Vibe Coding 原始定义
+   - https://karpathy.bearblog.dev/vibe-coding-menugen/
+
+2. Stack Overflow Developer Survey 2025
+   - https://survey.stackoverflow.co/2025/
+
+### 最佳实践指南
+
+- Clarifai - Vibe Coding Explained
+- Softr - Vibe Coding Best Practices
+- Supabase - Vibe Coding Best Practices for Prompting
+
+---
+
+## 迭代记录
+
+- 2026-02-12: 整合核心理念、三种约定层次、五阶段流程，明确能力层与交付层的双层结构
