@@ -1,0 +1,12 @@
+{
+  "project": "项目名称",
+  "feature": "功能名称",
+  "description": "功能简述",
+  "start_time": "2026-02-13T10:00:00+08:00",
+  "end_time": null,
+  "skill_refs": [
+    "vibe-coding/behavior-audit",
+    "其他引用的skill"
+  ],
+  "status": "in_progress"
+}
