@@ -236,6 +236,186 @@ worker.stop()
    - 当下游处理不过来时，上游应减速
    - 避免队列无限增长
 
+### Stage 监控与统计
+
+**[强制] 每个 Stage 必须收集执行指标**
+
+可观测性是性能调优的基础，每个阶段应记录：
+
+| 指标类型 | 具体指标 | 用途 |
+|---------|---------|------|
+| **时间** | 执行耗时、等待耗时 | 识别瓶颈阶段 |
+| **资源** | CPU%、内存、GPU显存 | 资源规划、成本估算 |
+| **数据** | 输入/输出数据量 | 数据膨胀检测 |
+| **质量** | 成功率、错误类型 | 稳定性监控 |
+
+**实现示例**
+
+```python
+from dataclasses import dataclass, field
+from typing import Dict, Any
+from datetime import datetime
+import time
+import psutil
+import os
+
+@dataclass
+class StageMetrics:
+    """Stage 执行指标"""
+    stage_name: str
+    task_id: int
+    
+    # 时间指标
+    start_time: datetime = field(default_factory=datetime.now)
+    end_time: datetime = None
+    duration_ms: float = 0.0
+    queue_wait_ms: float = 0.0  # 在队列中等待的时间
+    
+    # 资源指标（执行前后采样）
+    cpu_percent_before: float = 0.0
+    cpu_percent_after: float = 0.0
+    memory_mb_before: float = 0.0
+    memory_mb_after: float = 0.0
+    gpu_memory_mb_before: float = 0.0  # 如使用 GPU
+    gpu_memory_mb_after: float = 0.0
+    
+    # 数据指标
+    input_size_bytes: int = 0
+    output_size_bytes: int = 0
+    
+    # 结果指标
+    success: bool = True
+    error_type: str = None
+    error_message: str = None
+    
+    def finish(self, success: bool = True, error: Exception = None):
+        """标记 Stage 完成，计算耗时"""
+        self.end_time = datetime.now()
+        self.duration_ms = (self.end_time - self.start_time).total_seconds() * 1000
+        self.success = success
+        if error:
+            self.error_type = type(error).__name__
+            self.error_message = str(error)
+    
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "stage": self.stage_name,
+            "task_id": self.task_id,
+            "duration_ms": round(self.duration_ms, 2),
+            "queue_wait_ms": round(self.queue_wait_ms, 2),
+            "cpu_avg": round((self.cpu_percent_before + self.cpu_percent_after) / 2, 1),
+            "memory_delta_mb": round(self.memory_mb_after - self.memory_mb_before, 1),
+            "data_ratio": round(self.output_size_bytes / max(self.input_size_bytes, 1), 2),
+            "success": self.success,
+        }
+
+
+class MonitoredStage:
+    """带监控的 Stage 包装器"""
+    
+    def __init__(self, name: str, func: Callable, task_id: int):
+        self.name = name
+        self.func = func
+        self.task_id = task_id
+        self.metrics = StageMetrics(stage_name=name, task_id=task_id)
+    
+    def execute(self, data: Any) -> Any:
+        """执行并收集指标"""
+        # 记录资源基准
+        process = psutil.Process(os.getpid())
+        self.metrics.cpu_percent_before = psutil.cpu_percent(interval=0.1)
+        self.metrics.memory_mb_before = process.memory_info().rss / 1024 / 1024
+        self.metrics.input_size_bytes = len(str(data).encode())  # 简化估算
+        
+        start = time.perf_counter()
+        try:
+            result = self.func(data)
+            self.metrics.finish(success=True)
+            return result
+        except Exception as e:
+            self.metrics.finish(success=False, error=e)
+            raise
+        finally:
+            # 记录资源峰值
+            self.metrics.duration_ms = (time.perf_counter() - start) * 1000
+            self.metrics.cpu_percent_after = psutil.cpu_percent(interval=0.1)
+            self.metrics.memory_mb_after = process.memory_info().rss / 1024 / 1024
+            self.metrics.output_size_bytes = len(str(result).encode()) if 'result' in dir() else 0
+            
+            # 输出日志
+            print(f"[Metrics] {self.metrics.to_dict()}")
+```
+
+**流水线集成**
+
+```python
+class MonitoredPipelineWorker(PipelineWorker):
+    """带监控的流水线工作器"""
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.all_metrics: List[StageMetrics] = []
+    
+    def _stage_worker(self, stage_idx: int):
+        """带监控的阶段工作线程"""
+        q = self.stage_queues[stage_idx]
+        is_last = (stage_idx == len(self.stage_queues) - 1)
+        
+        while True:
+            task = q.get()
+            if task is None:
+                break
+            
+            task_id, pipeline, data = task
+            stage = pipeline.stages[stage_idx]
+            
+            # 包装为监控 Stage
+            monitored = MonitoredStage(f"S{stage_idx}", stage, task_id)
+            
+            try:
+                result = monitored.execute(data)
+                self.all_metrics.append(monitored.metrics)
+                
+                if not is_last:
+                    self.stage_queues[stage_idx + 1].put((task_id, pipeline, result))
+                else:
+                    print(f"[Task {task_id}] Completed")
+                    
+            except Exception as e:
+                self.all_metrics.append(monitored.metrics)
+                print(f"[Task {task_id}] Failed: {e}")
+            
+            q.task_done()
+    
+    def get_summary(self) -> Dict[str, Any]:
+        """生成执行摘要"""
+        import statistics
+        
+        by_stage = {}
+        for m in self.all_metrics:
+            by_stage.setdefault(m.stage_name, []).append(m.duration_ms)
+        
+        return {
+            stage: {
+                "count": len(durations),
+                "avg_ms": round(statistics.mean(durations), 2),
+                "max_ms": round(max(durations), 2),
+                "min_ms": round(min(durations), 2),
+            }
+            for stage, durations in by_stage.items()
+        }
+```
+
+**使用场景**
+
+| 场景 | 监控重点 | 调优方向 |
+|------|---------|---------|
+| 耗时突增 | duration_ms | 算法优化、资源扩容 |
+| 内存泄漏 | memory_delta_mb | 释放中间变量、分批处理 |
+| 队列积压 | queue_wait_ms | 增加阶段并发数、优化上游速度 |
+| 数据膨胀 | data_ratio | 压缩、过滤无用数据 |
+| GPU利用率低 | gpu_memory_mb | 批处理大小、并发任务数 |
+
 ## 迭代记录
 
 - 2026-02-12: 从项目实践中提取，定义为通用架构模式
