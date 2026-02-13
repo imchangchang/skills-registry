@@ -10,28 +10,20 @@ usage() {
     echo "  init [path]     初始化当前目录（或指定路径）为 Vibe Coding 项目"
     echo "  deinit          从当前目录移除 Vibe Coding 配置"
     echo "  link            重新链接技能库"
-    echo "  skill <name>    添加技能到 .skill-set"
     echo "  list            列出可用技能"
-    echo "  status          查看当前项目 Vibe 状态"
     echo ""
     echo "Examples:"
     echo "  vibe init                    # 初始化当前目录"
     echo "  vibe init ~/projects/myapp   # 初始化指定目录"
     echo "  vibe deinit                  # 移除 Vibe Coding 配置"
     echo "  vibe link                    # 重新链接技能库"
-    echo "  vibe skill stm32             # 添加 stm32 到 .skill-set"
     echo "  vibe list                    # 列出所有可用技能"
-    echo "  vibe status                  # 查看状态"
 }
 
 case "${1:-}" in
     init)
         shift
         "$SKILLS_REGISTRY/scripts/init-vibe.sh" "$@"
-        ;;
-    skill)
-        shift
-        "$SKILLS_REGISTRY/scripts/add-skill.sh" "$@"
         ;;
     link)
         if [ -f ".vibe/scripts/link.sh" ]; then
@@ -53,9 +45,6 @@ case "${1:-}" in
     deinit)
         shift
         "$SKILLS_REGISTRY/scripts/deinit-vibe.sh" "$@"
-        ;;
-    status)
-        "$SKILLS_REGISTRY/scripts/vibe-status.sh"
         ;;
     help|--help|-h)
         usage
