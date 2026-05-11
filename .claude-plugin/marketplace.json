@@ -11,20 +11,18 @@
       "name": "docker-dev-workflow",
       "description": "用于快速搭建 Docker + Dev Container 开发环境",
       "source": {
-        "type": "github",
-        "owner": "imchangchang",
-        "repo": "skills-registry",
-        "subdir": "skills/claude-code/docker-dev-workflow"
+        "source": "git-subdir",
+        "url": "https://github.com/imchangchang/skills-registry",
+        "path": "skills/claude-code/docker-dev-workflow"
       }
     },
     {
       "name": "git-commit",
       "description": "Git Commit 规范工作流，支持中文 Conventional Commits",
       "source": {
-        "type": "github",
-        "owner": "imchangchang",
-        "repo": "skills-registry",
-        "subdir": "skills/claude-code/git-commit"
+        "source": "git-subdir",
+        "url": "https://github.com/imchangchang/skills-registry",
+        "path": "skills/claude-code/git-commit"
       }
     }
   ]
