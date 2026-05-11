@@ -1,0 +1,10 @@
+{
+  "name": "my-project",
+  "build": {
+    "dockerfile": "../docker/Dockerfile.build"
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind",
+  "workspaceFolder": "${localWorkspaceFolder}",
+  "remoteUser": "builder",
+  "updateRemoteUserUID": true
+}

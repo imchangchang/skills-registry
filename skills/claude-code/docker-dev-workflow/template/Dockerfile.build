@@ -1,0 +1,33 @@
+# syntax=docker/dockerfile:1
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# --------------------------------------------
+# 基础工具 - 根据项目需求增删
+# --------------------------------------------
+RUN apt-get update && apt-get install -y \
+    curl git ssh ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# --------------------------------------------
+# 构建工具链 - 根据项目需求增删
+# 示例包含：
+#   - 编译工具：gcc, g++, make
+#   - 常用工具：cmake, autoconf, automake
+#   - 脚本语言：python3, python3-pip
+# --------------------------------------------
+RUN apt-get update && apt-get install -y \
+    build-essential cmake autoconf automake \
+    libtool pkg-config \
+    python3 python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# --------------------------------------------
+# 创建开发用户
+# --------------------------------------------
+RUN useradd -m -s /bin/bash builder
+
+USER builder
+WORKDIR /home/builder
+CMD ["/bin/bash"]
