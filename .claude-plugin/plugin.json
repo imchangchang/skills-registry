@@ -3,6 +3,7 @@
   "description": "多 Agent 技能存储库，支持 Docker 开发环境、Dev Container 等技能",
   "version": "1.0.0",
   "skills": [
-    "docker-dev-workflow"
+    "docker-dev-workflow",
+    "git-commit"
   ]
 }

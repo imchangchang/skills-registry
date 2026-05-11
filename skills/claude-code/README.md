@@ -15,3 +15,4 @@ Claude Code CLI 专用技能。
 ## 已有技能
 
 - [docker-dev-workflow](./docker-dev-workflow/) - Docker + Dev Container 开发流程
+- [git-commit](./git-commit/) - Git Commit 规范工作流
