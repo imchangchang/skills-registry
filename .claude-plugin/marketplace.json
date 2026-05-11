@@ -1,29 +1,22 @@
 {
   "$schema": "https://code.claude.com/schema/marketplace.json",
   "name": "skills-registry",
-  "owner": {
-    "name": "imchangchang"
-  },
+  "displayName": "Skills Registry",
   "description": "多 Agent 技能存储库，支持 Docker 开发环境、Git Commit 等 Claude Code 技能",
   "version": "1.0.0",
+  "owner": {
+    "name": "imchangchang",
+    "url": "https://github.com/imchangchang"
+  },
+  "repository": "https://github.com/imchangchang/skills-registry",
+  "license": "MIT",
+  "keywords": ["skills", "docker", "git-commit", "claude-code"],
+  "categories": ["Development Tools", "Productivity"],
   "plugins": [
     {
-      "name": "docker-dev-workflow",
-      "description": "用于快速搭建 Docker + Dev Container 开发环境",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/imchangchang/skills-registry",
-        "path": "skills/claude-code/docker-dev-workflow"
-      }
-    },
-    {
-      "name": "git-commit",
-      "description": "Git Commit 规范工作流，支持中文 Conventional Commits",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/imchangchang/skills-registry",
-        "path": "skills/claude-code/git-commit"
-      }
+      "name": "skills-registry",
+      "description": "多 Agent 技能存储库",
+      "source": "./"
     }
   ]
 }

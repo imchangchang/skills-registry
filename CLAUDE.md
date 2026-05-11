@@ -1,20 +1,18 @@
 # Skills 注册中心
 
-多 Agent 技能存储库，支持 OpenCode、KimiCode、VSCode、Codex、Claude Code 等主流 AI 编码助手。
+多 Agent 技能存储库，支持 Docker 开发环境、Git Commit 等 Claude Code 技能。
 
 ## 目录结构
 
 ```
 skills-registry/
 ├── .claude-plugin/            # Claude Code 插件配置
-│   └── plugin.json            # 插件清单
-├── skills/                    # Agent 技能定义
-│   ├── claude-code/          # Claude Code 技能
-│   ├── opencode/             # OpenCode 技能
-│   ├── kimi/                 # KimiCode 技能
-│   ├── openai/               # OpenAI Codex 技能
-│   ├── gemini/               # Gemini 技能
-│   └── mcp/                  # MCP 插件
+│   ├── plugin.json            # 插件清单
+│   └── marketplace.json        # Marketplace 清单
+├── skills/                    # Claude Code 技能目录
+│   ├── docker-dev-workflow/  # Docker + Dev Container 开发流程
+│   └── git-commit/            # Git Commit 规范工作流
+├── CLAUDE.md                  # 本文件
 └── README.md
 ```
 
@@ -31,7 +29,8 @@ skills-registry/
 ---
 name: 技能名称
 description: "简短描述"
-agent: claude-code  # 可选，指定适用的 Agent
+user_invocable: true  # 可选，是否可通过 /技能名 调用
+version: "1.0.0"
 ---
 
 # 技能说明
@@ -39,25 +38,27 @@ agent: claude-code  # 可选，指定适用的 Agent
 （详细的使用说明和示例）
 ```
 
-## Claude Code 技能
-
-### 已有技能
+## 已有技能
 
 | 技能 | 说明 |
 |------|------|
 | docker-dev-workflow | Docker + Dev Container 开发流程 |
 | git-commit | Git Commit 规范工作流 |
 
-### 安装方式
+## 安装方式
 
-**软链接安装（推荐）**
+**Marketplace 安装（推荐）**
 ```bash
-ln -sfn <skills-registry路径>/skills/claude-code/<技能名> ~/.claude/skills/<技能名>
+# 添加 marketplace
+claude plugin marketplace add imchangchang/skills-registry
+
+# 安装所有技能
+claude plugin install imchangchang/skills-registry
 ```
 
-**插件模式安装**
+**软链接安装**
 ```bash
-claude plugin install <owner>/skills-registry
+ln -sfn <skills-registry路径>/skills/<技能名> ~/.claude/skills/<技能名>
 ```
 
 ## git-commit 工作流
@@ -71,18 +72,14 @@ claude plugin install <owner>/skills-registry
 5. **确认后执行提交**
 6. **显示结果** - 包含 hash、文件数、行数
 
-详见 `skills/claude-code/git-commit/SKILL.md`
+详见 `skills/git-commit/SKILL.md`
 
 ## 添加新技能
 
-1. 在对应 Agent 目录下创建技能文件夹：`skills/<agent>/<技能名>/`
+1. 在 `skills/` 目录下创建技能文件夹：`skills/<技能名>/`
 2. 创建 `SKILL.md` 文件，包含 frontmatter 元数据
 3. （可选）添加 `template/` 目录存放模板文件
-4. **必须更新以下位置**：
-   - `.claude-plugin/plugin.json` 中的 `skills` 数组（Claude Code 技能）
-   - `skills/<agent>/README.md` 中的"已有技能"列表
-   - 本仓库根目录的 `README.md`
-5. 提交时使用 git-commit skill
+4. 提交时使用 git-commit skill
 
 ## 提交规范
 
