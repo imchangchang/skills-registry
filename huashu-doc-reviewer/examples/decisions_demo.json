@@ -1,0 +1,149 @@
+{
+  "mode": "contract",
+  "decisions": [
+    {
+      "para_id": 7,
+      "match_text": "根据本合同",
+      "action": "replace",
+      "new_text": "依据本合同",
+      "comment": "公文语境下'依据'比'根据'更规范，合同文本建议用'依据'。",
+      "severity": "minor"
+    },
+    {
+      "para_id": 7,
+      "match_text": "包括但不限于",
+      "action": "comment_only",
+      "new_text": null,
+      "comment": "建议明确列举推广形式的具体范围，避免开口式表述引发争议。",
+      "severity": "major"
+    },
+    {
+      "para_id": 10,
+      "match_text": "如遇不可抗力",
+      "action": "comment_only",
+      "new_text": null,
+      "comment": "建议补充不可抗力的具体情形清单（如自然灾害、政策变化、战争等），避免模糊解释空间。",
+      "severity": "major"
+    },
+    {
+      "para_id": 13,
+      "match_text": "30日内",
+      "action": "replace",
+      "new_text": "15个工作日内",
+      "comment": "自媒体行业常规付款周期为15个工作日，30日偏长。建议改为15个工作日并加明确违约条款。",
+      "severity": "critical"
+    },
+    {
+      "para_id": 13,
+      "match_text": "如甲方逾期付款，乙方可要求赔偿",
+      "action": "comment_only",
+      "new_text": null,
+      "comment": "风险条款：仅说'可要求赔偿'未约定违约金比例。建议改为'逾期每日按未付款金额万分之五支付违约金'，有具体数字才有执行力。",
+      "severity": "critical"
+    },
+    {
+      "para_id": 14,
+      "match_text": "乙方开具增值税专用发票后，甲方方可办理付款手续",
+      "action": "comment_only",
+      "new_text": null,
+      "comment": "重大风险：先开票再付款，对乙方极不利。万一甲方拒付乙方已承担税费。建议改为'甲方付款后5日内乙方开具发票'。",
+      "severity": "critical"
+    },
+    {
+      "para_id": 17,
+      "match_text": "乙方应无条件配合删除或修改",
+      "action": "replace",
+      "new_text": "双方协商确定处理方案",
+      "comment": "'无条件'是不对等条款。内容已发布后的修改成本由谁承担？建议改为协商机制。",
+      "severity": "critical"
+    },
+    {
+      "para_id": 20,
+      "match_text": "违约金数额由双方协商确定",
+      "action": "comment_only",
+      "new_text": null,
+      "comment": "违约金未约定数额本身就是最大的违约风险。建议明确：违约金为合同金额的30%。",
+      "severity": "critical"
+    },
+    {
+      "para_id": 23,
+      "match_text": "乙方创作的所有内容的知识产权归甲方所有",
+      "action": "comment_only",
+      "new_text": null,
+      "comment": "知识产权全部归甲方是苛刻条款。建议修改为：署名权归乙方，使用权在本次合作内归甲方，其余权利归乙方。",
+      "severity": "major"
+    },
+    {
+      "para_id": 29,
+      "match_text": "甲方所在地人民法院",
+      "action": "replace",
+      "new_text": "乙方所在地或合同签订地人民法院",
+      "comment": "默认甲方所在地管辖对乙方不利。建议协商确定或选择中立地点。",
+      "severity": "major"
+    },
+    {
+      "para_id": 10,
+      "match_text": "有效期为壹年",
+      "action": "comment_only",
+      "new_text": null,
+      "comment": "合作期限建议明确起止日期（如2026-04-17至2027-04-16），避免后续对期限起算产生争议。",
+      "severity": "minor"
+    },
+    {
+      "para_id": 13,
+      "match_text": "合作费用共计10万元整",
+      "action": "comment_only",
+      "new_text": null,
+      "comment": "建议补充是否含税、税率及发票类型（如含6%增值税专用发票）。金额条款必须税目清晰。",
+      "severity": "major"
+    },
+    {
+      "para_id": 17,
+      "match_text": "须经甲方审核通过后方可发布",
+      "action": "comment_only",
+      "new_text": null,
+      "comment": "建议设定审核响应时限（如甲方须在3个工作日内反馈审核意见，逾期视为默认通过），避免乙方被无限期卡住。",
+      "severity": "major"
+    },
+    {
+      "para_id": 20,
+      "match_text": "因违约造成的损失",
+      "action": "comment_only",
+      "new_text": null,
+      "comment": "建议明确赔偿上限（通常约定为合同总金额的1-3倍），防止无限扩大责任。",
+      "severity": "major"
+    },
+    {
+      "para_id": 23,
+      "match_text": "乙方不得将相关内容用于其他商业用途",
+      "action": "replace",
+      "new_text": "未经甲方书面同意，乙方不得将相关内容用于与甲方存在直接竞争关系的商业用途",
+      "comment": "原条款过宽。自媒体内容常涉及个人作品集、课程案例等场景，建议限定为直接竞争范围。",
+      "severity": "major"
+    },
+    {
+      "para_id": 26,
+      "match_text": "保密义务",
+      "action": "comment_only",
+      "new_text": null,
+      "comment": "保密条款缺失要件：未约定保密期限、未列明保密信息范围、未约定泄密的违约责任。建议补齐。",
+      "severity": "critical"
+    },
+    {
+      "para_id": 32,
+      "match_text": "另行签订补充协议",
+      "action": "insert_after",
+      "new_text": "，补充协议与本合同具有同等法律效力",
+      "comment": "建议明确补充协议的法律效力，避免后续争议。",
+      "severity": "minor"
+    },
+    {
+      "para_id": 7,
+      "match_text": "甲方应提供必要的产品资料和素材",
+      "action": "comment_only",
+      "new_text": null,
+      "comment": "建议明确甲方提供素材的时限（如每期内容发布前5个工作日）和素材不到位的处理机制（如顺延交付）。",
+      "severity": "minor"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "skill": "huashu-data-pro",
+  "version": "2026-04-17",
+  "purpose": "Darwin rubric评估 + AMD视频第四段演示稳定性验证",
+  "prompts": [
+    {
+      "id": "demo-canonical",
+      "scenario": "AMD锐龙AI MAX视频第四段演示场景（4:00-6:30）",
+      "priority": "P0",
+      "prompt": "这是我们公司2026上半年的财务数据，三张表：薪资、订单、成本。帮我分析一下，全程用本地模型跑，三份报告（网页+Excel+PPT）一次出齐。文件：examples/sample_finance.xlsx",
+      "expected_behavior": [
+        "读SKILL.md决策路径：触发多专家深度分析（行>500、字段>10、跨3张表）",
+        "读references/multi-expert-workflow.md，固定启动趋势/结构/异常三专家",
+        "读references/local-model-config.md，先ping LOCAL_LLM_BASE_URL自检",
+        "三subagent并行跑（run_in_background=true），终端打印[●]进度行",
+        "汇总analysis.json，并行build_xlsx.py + HTML + build_pptx.js",
+        "三种格式同时出，报告正文不出现角色名"
+      ],
+      "demo_success_criteria": [
+        "8分钟内端到端完成",
+        "Excel报告打开后核心摘要页有蓝顶线+三文鱼粉底+6张big number卡",
+        "关键指标sheet有三视角合并表+斑马纹",
+        "透视_结构sheet色阶显示部门×月份",
+        "终端[●]进度行完整打印，没有Python traceback"
+      ]
+    },
+    {
+      "id": "complex-reasonable",
+      "scenario": "稍复杂场景：单CSV投放数据+指定风格",
+      "priority": "P1",
+      "prompt": "这份是抖音千川投放3个月的数据，帮我做个深度复盘报告，HTML格式，用Fathom海军蓝科学期刊风格，重点分析ROI异常波动和账户结构集中度。文件：ads_campaign_q1.csv（120列 × 2800行）",
+      "expected_behavior": [
+        "单CSV+高维度，触发动态选角（不是固定三专家）",
+        "读references/ad-analytics.md获取投放领域知识",
+        "读references/report-style-gallery.md取Fathom色值/字体/版式",
+        "Phase 2专家陈述写入md文件请用户确认（角色可能是投放优化师/媒介策划/归因分析师）",
+        "Phase 4报告正文按主题组织（投放健康度/归因结构/异常账户），不按角色",
+        "HTML报告body有max-width:1200px + margin:0 auto + padding"
+      ]
+    },
+    {
+      "id": "edge-case",
+      "scenario": "边界场景：数据质量异常+字段缺失",
+      "priority": "P2",
+      "prompt": "帮我看下这份数据（broken.xlsx）。列名有乱码、日期列一半是2026/1/15一半是15-Jan-26格式、金额列里夹杂'N/A'和空串，还有一张只有表头的空sheet。你看能分析出什么就分析什么，不能的告诉我原因。",
+      "expected_behavior": [
+        "Phase 1立刻报告：字段乱码、日期混合格式、金额列类型不一致、空sheet",
+        "触发SKILL.md「不确定时必须问」：主动询问字段含义/是否需要清洗",
+        "build_xlsx.py在无有效数值列场景仍能产出基础excel（已实测通过）",
+        "不编造不存在的结论，不硬上多专家流程",
+        "给出可执行的数据清洗建议而非「数据不行没法分析」"
+      ]
+    }
+  ]
+}

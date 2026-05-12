@@ -1,0 +1,59 @@
+{
+  "skill": "huashu-doc-reviewer",
+  "purpose": "测试skill在三种典型prompt下的响应质量与稳定性；重点保障AMD锐龙AI MAX视频第五段（6:30-9:30）的演示稳定性。",
+  "test_prompts": [
+    {
+      "id": "P1-demo-contract",
+      "scenario": "演示场景（视频第五段：全片高潮，断网本地LLM）",
+      "prompt": "帮我审一下这份合同。\n\n（附件：/Users/alchain/Documents/写作/.claude/skills/huashu-doc-reviewer/examples/sample_contract.docx）",
+      "expected_behavior": [
+        "识别为contract模式",
+        "若本地LLM可用，走完整pipeline：read_docx → reviewer-prompt → validate → inject",
+        "若本地LLM崩溃/超时/断网：降级到examples/decisions_demo.json直接inject（救命稻草）",
+        "输出 .reviewed.docx，批注≥10条，修订≥3对，Word可正常打开",
+        "终端可见'success: N, skipped: 0'的直观反馈"
+      ],
+      "critical_visuals": [
+        "右侧批注侧边栏满屏（15条以上最炸）",
+        "正文中至少4处删除线+红色新文字（修订标记）",
+        "批注作者=Claude AI Reviewer（录制时可改成花叔AI审稿更有品牌感）"
+      ]
+    },
+    {
+      "id": "P2-mode-switching",
+      "scenario": "稍复杂场景：同一份合同用不同模式重跑",
+      "prompt": "先用contract模式审一遍，然后把这份文档当方案（proposal模式）再审一遍，对比两种视角能看到什么不同。",
+      "expected_behavior": [
+        "第一轮：用reviewer-prompt.md中的contract prompt，侧重风险条款/付款/知识产权",
+        "第二轮：用proposal prompt，侧重假设/论据/可行性",
+        "产出两份独立.reviewed.docx，不覆盖彼此",
+        "批注内容风格明显不同（律师视角 vs 咨询顾问视角）"
+      ],
+      "critical_risks": [
+        "两轮运行共用文件名会相互覆盖——必须显式分两个输出",
+        "mode字段只影响模型prompt，不影响inject流程，这个隔离正确"
+      ]
+    },
+    {
+      "id": "P3-boundary-adversarial",
+      "scenario": "边界场景：异常输入与模型返回不合法",
+      "prompt": "我这份docx是从WPS/飞书导出的，可能格式有点怪，而且我让本地模型输出的JSON里有几条match_text是它自己脑补的（原文里没有）。还有一条para_id=999根本不存在。你怎么处理？",
+      "expected_behavior": [
+        "validate_decisions.py过滤掉schema不合法的条目（返回errors列表，clean部分继续）",
+        "inject_comments.py对match_text找不到的条目记warning、跳过，不中断",
+        "para_id超出范围的条目记warning、跳过",
+        "最终输出结果含summary: {success:N, skipped:M, warnings:[...]}",
+        "即使全部decisions都失败，脚本退出码=1，不损坏原docx"
+      ],
+      "critical_risks": [
+        "生产有warnings时exit=0（设计内），演示镜头下可能看起来像有错误",
+        "建议：演示用decisions_demo.json走全绿路径，skipped=0"
+      ]
+    }
+  ],
+  "notes": {
+    "local_llm_fallback": "断网兜底命令：python3 scripts/inject_comments.py examples/sample_contract.docx examples/decisions_demo.json --output examples/expected_output.docx",
+    "visual_impact_target": "批注≥15条、修订≥5对，Word侧边栏视觉满，不留大段空白",
+    "demo_author_branding": "录制前可用 --author 花叔AI审稿 --initials 花 让品牌化"
+  }
+}
